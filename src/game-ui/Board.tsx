@@ -1,6 +1,5 @@
-import React, { useMemo } from "react";
-
-type TileKey = string;
+import React from "react";
+import { TileKey } from "../data/board-setup";
 
 function WheelCap({ rotate = 0 }: { rotate?: number }) {
   return (
@@ -58,12 +57,17 @@ function Center({ key }: { key?: TileKey }) {
 function SpokeTile({
   rotate = 0,
   offset = 0,
+  tileKey,
 }: {
   rotate?: number;
   offset?: number;
+  tileKey?: TileKey;
 }) {
   return (
     <g
+      onMouseOver={() => {
+        console.log(`Hovered over tile: ${tileKey}`);
+      }}
       transform={`
         rotate(${rotate} 250 250),
         translate(0 ${offset * -29})
@@ -79,14 +83,20 @@ function SpokeTile({
       ></rect>
       <text fontSize="7" fill="#FF0000" strokeWidth={0}>
         <tspan x="246.235352" y="210">
-          {rotate}
+          {tileKey}
         </tspan>
       </text>
     </g>
   );
 }
 
-function SpokeCap({ rotate = 0 }: { rotate?: number }) {
+function SpokeCap({
+  rotate = 0,
+  tileKey,
+}: {
+  rotate?: number;
+  tileKey?: TileKey;
+}) {
   return (
     <g
       transform={`
@@ -99,14 +109,16 @@ function SpokeCap({ rotate = 0 }: { rotate?: number }) {
       ></path>
       <text fontSize="7" fill="#FF0000" strokeWidth={0}>
         <tspan x="246.235352" y="90">
-          {rotate}
+          {tileKey}
         </tspan>
       </text>
     </g>
   );
 }
 
-export function Board({}) {
+export function Board({
+  onHoverTile_DEBUG = (tileKey: TileKey | undefined) => void
+}) {
   return (
     <svg
       width="500px"
@@ -118,36 +130,42 @@ export function Board({}) {
       <g fill="white" stroke="black" strokeWidth="1">
         <Center />
         {/* Spokes */}
-        <SpokeCap rotate={0} />
-        <SpokeTile rotate={0} />
-        <SpokeTile rotate={0} offset={1} />
-        <SpokeTile rotate={0} offset={2} />
-        <SpokeTile rotate={0} offset={3} />
-        <SpokeCap rotate={60} />
-        <SpokeTile rotate={60} />
-        <SpokeTile rotate={60} offset={1} />
-        <SpokeTile rotate={60} offset={2} />
-        <SpokeTile rotate={60} offset={3} />
-        <SpokeCap rotate={120} />
-        <SpokeTile rotate={120} />
-        <SpokeTile rotate={120} offset={1} />
-        <SpokeTile rotate={120} offset={2} />
-        <SpokeTile rotate={120} offset={3} />
-        <SpokeCap rotate={180} />
-        <SpokeTile rotate={180} />
-        <SpokeTile rotate={180} offset={1} />
-        <SpokeTile rotate={180} offset={2} />
-        <SpokeTile rotate={180} offset={3} />
-        <SpokeCap rotate={240} />
-        <SpokeTile rotate={240} />
-        <SpokeTile rotate={240} offset={1} />
-        <SpokeTile rotate={240} offset={2} />
-        <SpokeTile rotate={240} offset={3} />
-        <SpokeCap rotate={300} />
-        <SpokeTile rotate={300} />
-        <SpokeTile rotate={300} offset={1} />
-        <SpokeTile rotate={300} offset={2} />
-        <SpokeTile rotate={300} offset={3} />
+        <SpokeTile rotate={0} tileKey={TileKey.spoke1tile1} />
+        <SpokeTile rotate={0} tileKey={TileKey.spoke1tile2} offset={1} />
+        <SpokeTile rotate={0} tileKey={TileKey.spoke1tile3} offset={2} />
+        <SpokeTile rotate={0} tileKey={TileKey.spoke1tile4} offset={3} />
+        <SpokeCap rotate={0} tileKey={TileKey.spoke1tile5} />
+
+        <SpokeTile rotate={60} tileKey={TileKey.spoke2tile1} />
+        <SpokeTile rotate={60} tileKey={TileKey.spoke2tile2} offset={1} />
+        <SpokeTile rotate={60} tileKey={TileKey.spoke2tile3} offset={2} />
+        <SpokeTile rotate={60} tileKey={TileKey.spoke2tile4} offset={3} />
+        <SpokeCap rotate={60} tileKey={TileKey.spoke2tile5} />
+
+        <SpokeTile rotate={120} tileKey={TileKey.spoke3tile1} />
+        <SpokeTile rotate={120} tileKey={TileKey.spoke3tile2} offset={1} />
+        <SpokeTile rotate={120} tileKey={TileKey.spoke3tile3} offset={2} />
+        <SpokeTile rotate={120} tileKey={TileKey.spoke3tile4} offset={3} />
+        <SpokeCap rotate={120} tileKey={TileKey.spoke3tile5} />
+
+        <SpokeTile rotate={180} tileKey={TileKey.spoke4tile1} />
+        <SpokeTile rotate={180} tileKey={TileKey.spoke4tile2} offset={1} />
+        <SpokeTile rotate={180} tileKey={TileKey.spoke4tile3} offset={2} />
+        <SpokeTile rotate={180} tileKey={TileKey.spoke4tile4} offset={3} />
+        <SpokeCap rotate={180} tileKey={TileKey.spoke4tile5} />
+
+        <SpokeTile rotate={240} tileKey={TileKey.spoke5tile1} />
+        <SpokeTile rotate={240} tileKey={TileKey.spoke5tile2} offset={1} />
+        <SpokeTile rotate={240} tileKey={TileKey.spoke5tile3} offset={2} />
+        <SpokeTile rotate={240} tileKey={TileKey.spoke5tile4} offset={3} />
+        <SpokeCap rotate={240} tileKey={TileKey.spoke5tile5} />
+
+        <SpokeTile rotate={300} tileKey={TileKey.spoke6tile1} />
+        <SpokeTile rotate={300} tileKey={TileKey.spoke6tile2} offset={1} />
+        <SpokeTile rotate={300} tileKey={TileKey.spoke6tile3} offset={2} />
+        <SpokeTile rotate={300} tileKey={TileKey.spoke6tile4} offset={3} />
+        <SpokeCap rotate={300} tileKey={TileKey.spoke6tile5} />
+
         {/* Big honkin wheel of life */}
         <WheelCap rotate={0} />
         <WheelTile rotate={10} />
