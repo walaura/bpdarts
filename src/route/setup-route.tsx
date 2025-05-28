@@ -1,13 +1,11 @@
 import stylex from "@stylexjs/stylex";
-import React, { ForwardedRef, useEffect } from "react";
+import React, { ForwardedRef, useCallback, useEffect, useState } from "react";
 import Flexbox from "../styles/Flexbox";
-import { Tile } from "../game-ui/Tile";
-import { BoardPosition } from "../game-ui/BoardPosition";
-import { BoardLayout } from "../game-ui/BoardLayout";
-import { Position } from "../solver/base";
+import { Board } from "../game-ui/Board";
 
 const styles = stylex.create({
   center: {
+    backgroundColor: "#222222",
     width: "100%",
     flex: "1 0 0",
     display: "flex",
@@ -15,150 +13,100 @@ const styles = stylex.create({
   },
 });
 
-function BoardNumberEditorImpl(
-  {
-    number,
-    onSetNumber,
-    onDeleteNumber,
-    isInstant = false,
-  }: {
-    number: number;
-    onSetNumber: (number: number) => void;
-    onDeleteNumber: () => void;
-    isInstant?: boolean;
-  },
-  ref: ForwardedRef<HTMLDivElement>
-) {
-  const [isFocused, setIsFocused] = React.useState(false);
-  return (
-    <div
-      ref={ref}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
-      onKeyDown={(e) => {
-        if (e.key === "Backspace") {
-          if (number === null) {
-            onDeleteNumber();
-          } else {
-            onSetNumber(null);
-          }
-        }
-        const num = Number(e.key);
-        if (!isNaN(num)) {
-          onSetNumber(isInstant ? num : number * 10 + num);
-        }
-      }}
-      tabIndex={0}
-      style={{ background: isFocused ? "yellow" : "blue", padding: 3 }}
-    >
-      {number}
-    </div>
-  );
+enum Operation {
+  ADD,
+  REMOVE,
+  MULTI,
+  DIVISION,
 }
 
-const BoardNumberEditor = React.forwardRef(BoardNumberEditorImpl);
+function getOperationName(op: Operation): string {
+  switch (op) {
+    case Operation.ADD:
+      return "+";
+    case Operation.REMOVE:
+      return "-";
+    case Operation.MULTI:
+      return "x";
+    case Operation.DIVISION:
+      return "/";
+    default:
+      return "n";
+  }
+}
 
-const moveFocus = (to: -1 | 1) => {
-  const elements = Array.from(document.querySelectorAll("[tabindex]"));
-  const index = elements.indexOf(document.activeElement);
-  //@ts-expect-error - lol
-  elements[index + to]?.focus();
+interface Nums {
+  value: number;
+}
+
+type OperationForTier = Operation[];
+
+interface State {
+  operationForTier: OperationForTier;
+  numbersOnTier: number[][];
+  exp?: Operation;
+}
+
+const STARTING_STATE: State = {
+  operationForTier: [Operation.ADD, null, Operation.DIVISION, Operation.MULTI],
+  numbersOnTier: [[4], [], [], [2]],
+  exp: null,
 };
 
-function BoardPositionEditor({
-  position,
-  onUpdatePosition,
+function Number({
+  number,
+  operationForTier,
+  numberStates,
+  onChangeNumberStates,
 }: {
-  position: Position;
-  onUpdatePosition: (Position) => void;
+  number: number;
+  operationForTier: OperationForTier;
+  numberStates: boolean[];
+  onChangeNumberStates: (numberStates: boolean[]) => void;
 }) {
   return (
-    <div
-      style={{ background: "pink", padding: 5 }}
-      onBlur={(ev) => {
-        console.log(ev);
-      }}
-      onKeyDown={(e) => {
-        if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-          moveFocus(-1);
-        }
-        if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-          moveFocus(1);
-        }
-      }}
-    >
-      <Flexbox gap={8}>
-        {position.map((number, index) => (
-          <BoardNumberEditor
-            key={index}
-            number={number}
-            onDeleteNumber={() => {
-              moveFocus(-1);
-              onUpdatePosition([
-                ...position.slice(0, index),
-                ...position.slice(index + 1),
-              ]);
-            }}
-            onSetNumber={(number) => {
-              onUpdatePosition([
-                ...position.slice(0, index),
-                number,
-                ...position.slice(index + 1),
-              ]);
+    <Flexbox>
+      {number} -{" "}
+      {numberStates.map((state, idx) => (
+        <label>
+          <input
+            type="checkbox"
+            checked={state}
+            onChange={() => {
+              onChangeNumberStates(
+                numberStates.map((og, idxx) => (idx === idxx ? !state : og))
+              );
             }}
           />
-        ))}
-        <BoardNumberEditor
-          key={"new"}
-          onDeleteNumber={() =>
-            onUpdatePosition([...position.slice(0, position.length - 1)])
-          }
-          number={null}
-          onSetNumber={(number) => {
-            onUpdatePosition([...position, number]);
-          }}
-        />
-      </Flexbox>
-    </div>
+        </label>
+      ))}
+    </Flexbox>
   );
 }
 
-export default function setupRoute() {
-  const [horizontalLines, setHorizontalLines] = React.useState([[4, 5]]);
-  const [verticalLines, setVerticalLines] = React.useState([[1, 2]]);
-  console.log(horizontalLines);
+export default function SetupRoute() {
+  const [{ operationForTier, numbersOnTier, exp }, setState] =
+    useState(STARTING_STATE);
+
+  const updateNumber = useCallback(
+    (number: number, numberStates: boolean[]) => {
+      setState((old) => ({
+        ...old,
+        numbersOnTier: old.numbersOnTier.map((tier, idx) =>
+          numberStates[idx] === true
+            ? tier.includes(number)
+              ? tier
+              : [...tier, number]
+            : tier.filter((n) => n !== number)
+        ),
+      }));
+    },
+    [setState]
+  );
+
   return (
-    <>
-      <Flexbox styles={styles.center} align="center" justify="center">
-        <BoardLayout
-          horizontalLines={horizontalLines.length}
-          verticalLines={verticalLines.length}
-          drawPosition={(direction, index) => {
-            return (
-              <>
-                <BoardPositionEditor
-                  position={horizontalLines[index]}
-                  onUpdatePosition={(position) => {
-                    console.log(position);
-                    setHorizontalLines((lines) =>
-                      lines.map((line, i) => (i === index ? position : line))
-                    );
-                  }}
-                />
-                <BoardPosition
-                  key={index}
-                  onClick={() => {}}
-                  direction={direction}
-                  position={horizontalLines[index]}
-                />
-              </>
-            );
-          }}
-          drawTile={(vertical, horizontal) => {
-            return <Tile key={`${horizontal}-${vertical}`} />;
-          }}
-        />
-      </Flexbox>
-    </>
+    <Flexbox direction="column" styles={styles.center}>
+      <Board />
+    </Flexbox>
   );
 }
