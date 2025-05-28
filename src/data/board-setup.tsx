@@ -18,6 +18,16 @@ export const COLOR_FOR_COLOR = {
   [Color.Any]: "#FFFFFF",
 };
 
+export const EMOJIS_FOR_COLOR = {
+  [Color.Blue]: ["📍", "🌍", "🗺️"],
+  [Color.Pink]: ["🎥", "💽", "🎶"],
+  [Color.Yellow]: ["🎓", "📜", "🗝️"],
+  [Color.Purple]: ["🎨", "🖌️", "📖"],
+  [Color.Green]: ["🌳", "🧬", "⚗️"],
+  [Color.Orange]: ["⚽️", "⛷️", "🏐"],
+  [Color.Any]: ["🌍", "🌎", "🌏"],
+};
+
 export enum TileKey {
   Center = "Center",
   Spoke1Tile1 = "Spoke1Tile1",

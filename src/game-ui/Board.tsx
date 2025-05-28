@@ -1,5 +1,10 @@
-import React, { useCallback, useState } from "react";
-import { COLOR_FOR_COLOR, TileKey, TILES } from "../data/board-setup";
+import React, { useCallback, useRef, useState } from "react";
+import {
+  COLOR_FOR_COLOR,
+  EMOJIS_FOR_COLOR,
+  TileKey,
+  TILES,
+} from "../data/board-setup";
 
 function WheelCap({
   rotate = 0,
@@ -35,7 +40,7 @@ function WheelTile({
   tileKey: TileKey;
 }) {
   const { onMouseOver, fill } = useTileDebugProps(tileKey);
-  const { fill: innerFill } = useTileInnerProps(tileKey);
+  const { fill: innerFill, emoji } = useTileInnerProps(tileKey);
   return (
     <g
       transform={`
@@ -58,16 +63,11 @@ function WheelTile({
         d="M236.579837,32.3994289 C244.921616,31.8916205 253.287386,31.862079 261.633039,32.3098229 L263.421069,32.4130731 L264.21,32.465 L261.559,70.372 L260.989942,70.3354274 C254.194052,69.9186245 247.379592,69.8853529 240.581512,70.2363955 L239.01303,70.3242278 L238.442,70.361 L235.791,32.45 L236.579837,32.3994289 Z M236.610222,32.8985048 L236.325,32.917 L238.906,69.83 L238.982901,69.8251364 C245.797048,69.4138294 252.6303,69.3879599 259.447619,69.7467415 L261.095,69.841 L263.676,32.931 L263.390209,32.9121198 C254.472142,32.3606061 245.527434,32.3556668 236.610222,32.8985048 Z"
         fill="#000000"
       ></path>
-      <text fontSize="4" fill="#000000">
-        <tspan x="246.235352" y="65">
-          {tileKey}
-        </tspan>
-      </text>
       <text
         filter="url(#artwork)"
         style={{
           mixBlendMode: "multiply",
-          opacity: 0.3,
+          opacity: 0.8,
         }}
         x="250"
         y="52"
@@ -75,7 +75,7 @@ function WheelTile({
         fontSize="11"
         textAnchor="middle"
       >
-        🚚
+        {emoji}
       </text>
     </g>
   );
@@ -159,7 +159,14 @@ function SpokeCap({
 
 function useTileInnerProps(tileKey: TileKey) {
   const color = TILES[tileKey].color;
-  return { fill: COLOR_FOR_COLOR[color] };
+  const emojiRef = useRef({});
+  let emoji = emojiRef.current[tileKey];
+  if (!emoji) {
+    const allEmojis = EMOJIS_FOR_COLOR[color];
+    emoji = allEmojis[Math.floor(Math.random() * allEmojis.length)];
+    emojiRef.current[tileKey] = emoji;
+  }
+  return { fill: COLOR_FOR_COLOR[color], emoji: emoji as string };
 }
 
 function useTileDebugProps(tileKey: TileKey | null) {
