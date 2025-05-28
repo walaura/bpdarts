@@ -23,11 +23,7 @@ function WheelTile({ rotate = 0 }: { rotate?: number }) {
       transform={`
       rotate(${rotate}, 250, 250)`}
     >
-      <path
-        d="M235.257492,31.9828302 C245.085675,31.3262717 254.938593,31.3333499 264.744563,31.9977889 L264.744563,31.9977889 L262.024057,70.902948 C254.027341,70.365063 245.992835,70.3593257 237.978139,70.8907713 L237.978139,70.8907713 Z"
-        stroke="#2F358F"
-        fill="pink"
-      ></path>
+      <path d="M235.257492,31.9828302 C245.085675,31.3262717 254.938593,31.3333499 264.744563,31.9977889 L264.744563,31.9977889 L262.024057,70.902948 C254.027341,70.365063 245.992835,70.3593257 237.978139,70.8907713 L237.978139,70.8907713 Z"></path>
       <text fontSize="7" fill="#FF0000" strokeWidth={0}>
         <tspan x="246.235352" y="53">
           {rotate}
@@ -40,11 +36,7 @@ function WheelTile({ rotate = 0 }: { rotate?: number }) {
 function Center({ key }: { key?: TileKey }) {
   return (
     <g>
-      <path
-        d="M268.711325,217.591035 L287.42265,250 L268.711325,282.408965 L231.288675,282.408965 L212.57735,250 L231.288675,217.591035 L268.711325,217.591035 Z"
-        stroke="#2F358F"
-        fill="#FFFFFF"
-      ></path>
+      <path d="M268.711325,217.591035 L287.42265,250 L268.711325,282.408965 L231.288675,282.408965 L212.57735,250 L231.288675,217.591035 L268.711325,217.591035 Z"></path>
       <text fontSize="7" fill="#FF0000" strokeWidth={0}>
         <tspan x="250" y="250">
           {key}
@@ -73,14 +65,7 @@ function SpokeTile({
         translate(0 ${offset * -29})
         `}
     >
-      <rect
-        stroke="#2F358F"
-        fill="blue"
-        x="231.5"
-        y="188.5"
-        width="37"
-        height="28"
-      ></rect>
+      <rect x="231.5" y="188.5" width="37" height="28"></rect>
       <text fontSize="7" fill="#FF0000" strokeWidth={0}>
         <tspan x="246.235352" y="210">
           {tileKey}
@@ -102,11 +87,7 @@ function SpokeCap({
       transform={`
       rotate(${rotate}, 250, 250)`}
     >
-      <path
-        d="M250,71.5 C257.727462,71.5 263.894187,71.8109511 268.499963,72.4352295 L268.499963,72.4352295 L268.497587,100.5 L231.5,100.5 L231.5,72.4352345 C236.10578,71.8109527 242.272518,71.5 250,71.5 Z"
-        stroke="#2F358F"
-        fill="lime"
-      ></path>
+      <path d="M250,71.5 C257.727462,71.5 263.894187,71.8109511 268.499963,72.4352295 L268.499963,72.4352295 L268.497587,100.5 L231.5,100.5 L231.5,72.4352345 C236.10578,71.8109527 242.272518,71.5 250,71.5 Z"></path>
       <text fontSize="7" fill="#FF0000" strokeWidth={0}>
         <tspan x="246.235352" y="90">
           {tileKey}
@@ -116,9 +97,7 @@ function SpokeCap({
   );
 }
 
-export function Board({
-  onHoverTile_DEBUG = (tileKey: TileKey | undefined) => void
-}) {
+export function Board({}) {
   return (
     <svg
       width="500px"
