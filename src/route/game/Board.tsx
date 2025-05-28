@@ -64,7 +64,6 @@ export function Board() {
           width: BOARD_SIZE,
           height: BOARD_SIZE,
           position: "relative",
-          transform: "scale(2)",
         }}
       >
         {gameState.players.map((player, index) => (

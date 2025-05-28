@@ -6,7 +6,7 @@ export type Game = {
   activePlayerId: number;
 };
 
-export const BOARD_SIZE = 500;
+export const BOARD_SIZE = 1000;
 
 export const GAME: Game = {
   activePlayerId: 0,
