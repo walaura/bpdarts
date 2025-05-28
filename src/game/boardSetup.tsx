@@ -1,4 +1,4 @@
-enum Color {
+export enum Color {
   Blue,
   Pink,
   Yellow,
@@ -14,7 +14,7 @@ export const COLOR_FOR_COLOR = {
   [Color.Yellow]: "#FDDA02",
   [Color.Purple]: "#7F3A8B",
   [Color.Green]: "#6EB028",
-  [Color.Orange]: "#D7007A",
+  [Color.Orange]: "#F28217",
   [Color.Any]: "#FFFFFF",
 };
 

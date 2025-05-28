@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { deserializePositions } from "./solver/url";
 
 export type SolveRoute = {
   route: "solve";
@@ -18,15 +17,7 @@ const resolveRoute = (path: string): Route => {
     return { route: "home" };
   }
 
-  const base = path.split("/").filter(Boolean).slice(1);
-  const prep = base.length === 2 ? deserializePositions(base[0], base[1]) : [];
-  if (prep.length === 2) {
-    return {
-      route: "solve",
-      horizontalPositions: prep[0],
-      verticalPositions: prep[1],
-    };
-  }
+  //const base = path.split("/").filter(Boolean).slice(1);
 
   return { route: "home" };
 };

@@ -1,8 +1,7 @@
 import React from "react";
 import stylex from "@stylexjs/stylex";
-import { useRouter } from "./useRouter";
-import SolveRoute from "./route/solve-route";
-import SetupRoute from "./route/setup-route";
+import { useRouter } from "./app/useRouter";
+import GameRoute from "./route/GameRoute";
 
 const styles = stylex.create({
   root: (tokens: { accent: string }) => ({
@@ -10,6 +9,7 @@ const styles = stylex.create({
     minHeight: "100dvh",
     "--accent": tokens.accent ?? "#12fff7",
     "--active": "var(--accent)",
+    backgroundColor: "#110048",
   }),
   center: {
     width: "100%",
@@ -27,11 +27,9 @@ const styles = stylex.create({
 
 export default function App() {
   const route = useRouter();
-  console.log(route);
   return (
     <div {...stylex.props(styles.root({ accent: "#12fff7" }))}>
-      {route.route === "solve" ? <SolveRoute route={route} /> : null}
-      {route.route === "home" ? <SetupRoute /> : null}
+      {route.route === "home" ? <GameRoute /> : null}
     </div>
   );
 }
