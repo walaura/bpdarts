@@ -6,7 +6,7 @@ import Flexbox from "../styles/Flexbox";
 
 const styles = stylex.create({
   board: {
-    "--tile-size": 30,
+    "--Tile-size": 30,
     "--position-size": 60,
     "--spacing": "1rem",
     marginRight: "calc(var(--position-size) + var(--spacing))",

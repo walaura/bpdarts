@@ -25,12 +25,12 @@ const styles = stylex.create({
 const directionStyles = stylex.create({
   horizontal: {
     width: "var(--position-size)",
-    height: "var(--tile-size)",
+    height: "var(--Tile-size)",
   },
   vertical: {
     flexDirection: "column",
     height: "var(--position-size)",
-    width: "var(--tile-size)",
+    width: "var(--Tile-size)",
   },
 });
 

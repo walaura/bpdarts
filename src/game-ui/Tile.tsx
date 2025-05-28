@@ -9,16 +9,16 @@ const pop = stylex.keyframes({
 });
 
 const styles = stylex.create({
-  tile: {
-    width: "calc(var(--tile-size) )",
-    height: "calc(var(--tile-size))",
+  Tile: {
+    width: "calc(var(--Tile-size) )",
+    height: "calc(var(--Tile-size))",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     boxSizing: "border-box",
     position: "relative",
   },
-  tileCorner: (top, left) => ({
+  TileCorner: (top, left) => ({
     position: "absolute",
     width: 2,
     height: 2,
@@ -29,22 +29,22 @@ const styles = stylex.create({
     left: left ? -1 : null,
     right: left ? null : -1,
   }),
-  tileSolved: {
+  TileSolved: {
     background: "var(--accent) linear-gradient(to bottom right, black, #666);",
     backgroundBlendMode: "color-burn",
     boxShadow: "0 0 8px color-mix(in srgb, var(--accent) 50%, transparent)",
     borderRadius: 2,
-    width: "calc(var(--tile-size) - 8px)",
-    height: "calc(var(--tile-size) - 8px)",
+    width: "calc(var(--Tile-size) - 8px)",
+    height: "calc(var(--Tile-size) - 8px)",
     zIndex: 10,
     overflow: "hidden",
   },
-  tileActive: {
+  TileActive: {
     background: "#000",
     opacity: 0.04,
     borderRadius: 2,
-    width: "calc(var(--tile-size) - 8px)",
-    height: "calc(var(--tile-size) - 8px)",
+    width: "calc(var(--Tile-size) - 8px)",
+    height: "calc(var(--Tile-size) - 8px)",
     margin: "auto",
     position: "absolute",
     top: 0,
@@ -73,12 +73,12 @@ export const Tile = ({
   state?: "active" | "solved";
   item?: Item;
 }) => (
-  <div {...stylex.props(styles.tile)}>
-    <div {...stylex.props(styles.tileCorner(0, 0))} />
-    <div {...stylex.props(styles.tileCorner(0, 1))} />
-    <div {...stylex.props(styles.tileCorner(1, 0))} />
-    <div {...stylex.props(styles.tileCorner(1, 1))} />
-    {state === "active" ? <div {...stylex.props(styles.tileActive)} /> : null}
+  <div {...stylex.props(styles.Tile)}>
+    <div {...stylex.props(styles.TileCorner(0, 0))} />
+    <div {...stylex.props(styles.TileCorner(0, 1))} />
+    <div {...stylex.props(styles.TileCorner(1, 0))} />
+    <div {...stylex.props(styles.TileCorner(1, 1))} />
+    {state === "active" ? <div {...stylex.props(styles.TileActive)} /> : null}
     {item === "o" && (
       <Pop>
         <Cross />
@@ -92,7 +92,7 @@ export const Tile = ({
   </div>
 );
 
-const SolvedTile = () => <div {...stylex.props(styles.tileSolved)} />;
+const SolvedTile = () => <div {...stylex.props(styles.TileSolved)} />;
 
 const Cross = () => (
   <svg height="20px" viewBox="0 -960 960 960" width="20px" fill="#bbb">
