@@ -23,5 +23,11 @@ export const GAME: Game = {
       unconsumedDiceRoll: null,
       color: Color.Pink,
     },
+    {
+      position: TileKey.Center,
+      positionXY: [BOARD_SIZE / 2, BOARD_SIZE / 2],
+      unconsumedDiceRoll: null,
+      color: Color.Blue,
+    },
   ],
 };
