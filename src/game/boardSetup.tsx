@@ -23,7 +23,7 @@ export const EMOJIS_FOR_COLOR = {
   [Color.Pink]: ["🎥", "💽", "🎶"],
   [Color.Yellow]: ["🎓", "📜", "🗝️"],
   [Color.Purple]: ["🎨", "🖌️", "📖"],
-  [Color.Green]: ["🌳", "🧬", "⚗️"],
+  [Color.Green]: ["🌳", "🧬", "🔭"],
   [Color.Orange]: ["⚽️", "⛷️", "🏐"],
   [Color.Any]: ["🌍", "🌎", "🌏"],
 };
@@ -243,27 +243,27 @@ export const TILES: { [key in TileKey]: Tile } = {
   },
   [TileKey.WheelCap1]: {
     links: [TileKey.Spoke1Tile5, TileKey.Wheel1Tile1, TileKey.Wheel6Tile6],
-    color: Color.Any,
+    color: Color.Green,
   },
   [TileKey.WheelCap2]: {
     links: [TileKey.Wheel1Tile6, TileKey.Wheel2Tile1, TileKey.Spoke2Tile5],
-    color: Color.Any,
+    color: Color.Orange,
   },
   [TileKey.WheelCap3]: {
     links: [TileKey.Wheel2Tile6, TileKey.Wheel3Tile1, TileKey.Spoke3Tile5],
-    color: Color.Any,
+    color: Color.Blue,
   },
   [TileKey.WheelCap4]: {
     links: [TileKey.Wheel3Tile6, TileKey.Wheel4Tile1, TileKey.Spoke4Tile5],
-    color: Color.Any,
+    color: Color.Pink,
   },
   [TileKey.WheelCap5]: {
     links: [TileKey.Wheel4Tile6, TileKey.Wheel5Tile1, TileKey.Spoke5Tile5],
-    color: Color.Any,
+    color: Color.Yellow,
   },
   [TileKey.WheelCap6]: {
     links: [TileKey.Wheel5Tile6, TileKey.Wheel6Tile1, TileKey.Spoke6Tile5],
-    color: Color.Any,
+    color: Color.Purple,
   },
   [TileKey.Wheel1Tile1]: {
     links: [TileKey.WheelCap1, TileKey.Wheel1Tile2],

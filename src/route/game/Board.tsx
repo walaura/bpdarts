@@ -58,13 +58,21 @@ export function Board({
               position: "absolute",
               left: player.positionXY[0],
               top: player.positionXY[1],
-              fontSize: 4,
-              backgroundColor: "red",
-              color: "white",
+              fontSize: 16,
+              transition: "all 0.2s ease",
+              backgroundColor: "white",
+              color: "black",
+              borderRadius: "50%",
+              width: "2em",
+              height: "2em",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transform: "translate(-50%, -50%)",
             }}
           >
-            Player {index + 1} - Position: {player.position}, Color:{" "}
-            {player.color}
+            {index + 1}
           </div>
         ))}
         <BoardSvg />

@@ -90,7 +90,7 @@ function createPoint(): SVGPoint {
 }
 
 const MIN_SCALE = 0.01;
-const ANIMATION_TIMING = 2000;
+const ANIMATION_TIMING = 600;
 
 function PinchZoomRefless(
   {
