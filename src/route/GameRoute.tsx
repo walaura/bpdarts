@@ -58,7 +58,6 @@ export default function GameRoute() {
   }, []);
 
   const onClickTile = (tileKey: TileKey, rect: DOMRect) => {
-    console.log(`Tile clicked: ${tileKey}`, rect);
     setGameState((prevState) => {
       return {
         ...prevState,
@@ -69,8 +68,8 @@ export default function GameRoute() {
           return {
             ...player,
             position: tileKey,
+            unconsumedDiceRoll: null, // Reset the dice roll after moving
             positionXY: [rect.x + rect.width / 2, rect.y + rect.height / 2],
-            // unconsumedDiceRoll: null, // Reset the dice roll after moving
           };
         }),
       };
@@ -99,14 +98,45 @@ export default function GameRoute() {
       <Tray
         styles={styles.tray}
         gameState={gameState}
+        onClickDice={() => {
+          setGameState((prevState) => {
+            const unconsumedDiceRoll = Math.floor(Math.random() * 6) + 1;
+            if (unconsumedDiceRoll >= 5) {
+              ref.current.setTransform({
+                ...getPlayerCenter(
+                  prevState.players[prevState.activePlayerId],
+                  0.33
+                ),
+                scale: 0.33,
+                animate: true,
+              });
+            }
+
+            return {
+              ...prevState,
+              players: prevState.players.map((player, index) => {
+                if (index !== prevState.activePlayerId) {
+                  return player;
+                }
+                return {
+                  ...player,
+                  unconsumedDiceRoll,
+                };
+              }),
+            };
+          });
+        }}
+        onClickCheeses={() => {
+          alert("keep ur own score lol");
+        }}
         onClickNext={() => {
           setGameState((prevState) => {
             const nextPlayerId =
               (prevState.activePlayerId + 1) % prevState.players.length;
 
             ref.current.setTransform({
-              ...getPlayerCenter(prevState.players[nextPlayerId], 0.75),
-              scale: 0.75,
+              ...getPlayerCenter(prevState.players[nextPlayerId], 0.5),
+              scale: 0.5,
               animate: true,
             });
 

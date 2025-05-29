@@ -1,22 +1,16 @@
-import React, { useCallback, useContext } from "react";
-import { useState } from "react";
-import { TileKey } from "../../game/boardSetup";
+import React, { useContext, useMemo } from "react";
+
+import { COLOR_FOR_COLOR, TileKey } from "../../game/boardSetup";
 import { traverseBoard } from "../../game/traverseBoard";
 import { BoardSvg } from "./BoardSvg";
 import { BOARD_SIZE, Game } from "../../game/gameSetup";
 
 const BoardContext = React.createContext<{
-  hovered: TileKey | null;
-  setHovered: (TileKey: TileKey | null) => void;
   onClick: (tileKey: TileKey, rect: DOMRect) => void;
   next: TileKey[];
-  setNext: (next: TileKey[]) => void;
 }>({
-  hovered: null,
-  setHovered: () => {},
   onClick: () => {},
   next: [],
-  setNext: () => {},
 });
 
 export const useBoardContext = () => useContext(BoardContext);
@@ -28,21 +22,24 @@ export function Board({
   gameState: Game;
   onClickTile: (tileKey: TileKey, rect: DOMRect) => void;
 }) {
-  const [hovered, _setHovered] = useState<TileKey | null>(null);
-  const [next, setNext] = useState<TileKey[]>([]);
-
-  const setHovered = useCallback(
-    (tileKey: TileKey | null) => {
-      _setHovered(tileKey);
-      const next = traverseBoard(tileKey, 6);
-      setNext(next);
-    },
-    [_setHovered, setNext]
+  const player = useMemo(
+    () => gameState.players[gameState.activePlayerId],
+    [gameState.players, gameState.activePlayerId]
   );
+
+  const next = useMemo(() => {
+    if (!player.unconsumedDiceRoll) {
+      return [];
+    }
+    return traverseBoard(player.position, player.unconsumedDiceRoll);
+  }, [player.position, player.unconsumedDiceRoll]);
 
   return (
     <BoardContext.Provider
-      value={{ hovered, setHovered, next, setNext, onClick: onClickTile }}
+      value={{
+        next,
+        onClick: onClickTile,
+      }}
     >
       <div
         style={{
@@ -60,7 +57,7 @@ export function Board({
               top: player.positionXY[1],
               fontSize: 16,
               transition: "all 0.2s ease",
-              backgroundColor: "white",
+              backgroundColor: COLOR_FOR_COLOR[player.color],
               color: "black",
               borderRadius: "50%",
               width: "2em",

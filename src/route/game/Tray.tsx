@@ -50,7 +50,7 @@ export function Tray({
       <Flexbox gap={8}>
         <Flexbox gap={8} grow={true}>
           <Button
-            label={"Dice"}
+            label={`Dice - ${player.unconsumedDiceRoll ?? "?"}`}
             onClick={onClickDice}
             styles={styles.grow}
           ></Button>

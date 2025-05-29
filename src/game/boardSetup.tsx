@@ -5,6 +5,7 @@ export enum Color {
   Purple,
   Green,
   Orange,
+  Again,
   Any,
 }
 
@@ -16,6 +17,7 @@ export const COLOR_FOR_COLOR = {
   [Color.Green]: "#6EB028",
   [Color.Orange]: "#F28217",
   [Color.Any]: "#FFFFFF",
+  [Color.Again]: "#FFFFFF",
 };
 
 export const EMOJIS_FOR_COLOR = {
@@ -25,7 +27,8 @@ export const EMOJIS_FOR_COLOR = {
   [Color.Purple]: ["🎨", "🖌️", "📖"],
   [Color.Green]: ["🌳", "🧬", "🔭"],
   [Color.Orange]: ["⚽️", "⛷️", "🏐"],
-  [Color.Any]: ["🌍", "🌎", "🌏"],
+  [Color.Any]: ["🌍"],
+  [Color.Again]: ["🎲"],
 };
 
 export enum TileKey {
@@ -123,35 +126,35 @@ export const TILES: { [key in TileKey]: Tile } = {
   },
   [TileKey.Spoke1Tile1]: {
     links: [TileKey.Center, TileKey.Spoke1Tile2],
-    color: Color.Blue,
+    color: Color.Yellow,
   },
   [TileKey.Spoke1Tile2]: {
     links: [TileKey.Spoke1Tile1, TileKey.Spoke1Tile3],
-    color: Color.Pink,
+    color: Color.Green,
   },
   [TileKey.Spoke1Tile3]: {
     links: [TileKey.Spoke1Tile2, TileKey.Spoke1Tile4],
-    color: Color.Yellow,
+    color: Color.Purple,
   },
   [TileKey.Spoke1Tile4]: {
     links: [TileKey.Spoke1Tile3, TileKey.Spoke1Tile5],
-    color: Color.Purple,
+    color: Color.Orange,
   },
   [TileKey.Spoke1Tile5]: {
     links: [TileKey.Spoke1Tile4, TileKey.WheelCap1],
-    color: Color.Green,
+    color: Color.Blue,
   },
   [TileKey.Spoke2Tile1]: {
     links: [TileKey.Center, TileKey.Spoke2Tile2],
-    color: Color.Orange,
+    color: Color.Pink,
   },
   [TileKey.Spoke2Tile2]: {
     links: [TileKey.Spoke2Tile1, TileKey.Spoke2Tile3],
-    color: Color.Blue,
+    color: Color.Purple,
   },
   [TileKey.Spoke2Tile3]: {
     links: [TileKey.Spoke2Tile2, TileKey.Spoke2Tile4],
-    color: Color.Pink,
+    color: Color.Blue,
   },
   [TileKey.Spoke2Tile4]: {
     links: [TileKey.Spoke2Tile3, TileKey.Spoke2Tile5],
@@ -159,7 +162,7 @@ export const TILES: { [key in TileKey]: Tile } = {
   },
   [TileKey.Spoke2Tile5]: {
     links: [TileKey.Spoke2Tile4, TileKey.WheelCap2],
-    color: Color.Purple,
+    color: Color.Orange,
   },
   [TileKey.Spoke3Tile1]: {
     links: [TileKey.Center, TileKey.Spoke3Tile2],
@@ -167,11 +170,11 @@ export const TILES: { [key in TileKey]: Tile } = {
   },
   [TileKey.Spoke3Tile2]: {
     links: [TileKey.Spoke3Tile1, TileKey.Spoke3Tile3],
-    color: Color.Orange,
+    color: Color.Blue,
   },
   [TileKey.Spoke3Tile3]: {
     links: [TileKey.Spoke3Tile2, TileKey.Spoke3Tile4],
-    color: Color.Blue,
+    color: Color.Orange,
   },
   [TileKey.Spoke3Tile4]: {
     links: [TileKey.Spoke3Tile3, TileKey.Spoke3Tile5],
@@ -187,15 +190,15 @@ export const TILES: { [key in TileKey]: Tile } = {
   },
   [TileKey.Spoke4Tile2]: {
     links: [TileKey.Spoke4Tile1, TileKey.Spoke4Tile3],
-    color: Color.Green,
+    color: Color.Orange,
   },
   [TileKey.Spoke4Tile3]: {
     links: [TileKey.Spoke4Tile2, TileKey.Spoke4Tile4],
-    color: Color.Orange,
+    color: Color.Yellow,
   },
   [TileKey.Spoke4Tile4]: {
     links: [TileKey.Spoke4Tile3, TileKey.Spoke4Tile5],
-    color: Color.Blue,
+    color: Color.Green,
   },
   [TileKey.Spoke4Tile5]: {
     links: [TileKey.Spoke4Tile4, TileKey.WheelCap4],
@@ -203,67 +206,67 @@ export const TILES: { [key in TileKey]: Tile } = {
   },
   [TileKey.Spoke5Tile1]: {
     links: [TileKey.Center, TileKey.Spoke5Tile2],
-    color: Color.Yellow,
+    color: Color.Blue,
   },
   [TileKey.Spoke5Tile2]: {
     links: [TileKey.Spoke5Tile1, TileKey.Spoke5Tile3],
-    color: Color.Purple,
+    color: Color.Yellow,
   },
   [TileKey.Spoke5Tile3]: {
     links: [TileKey.Spoke5Tile2, TileKey.Spoke5Tile4],
-    color: Color.Green,
+    color: Color.Pink,
   },
   [TileKey.Spoke5Tile4]: {
     links: [TileKey.Spoke5Tile3, TileKey.Spoke5Tile5],
-    color: Color.Orange,
+    color: Color.Purple,
   },
   [TileKey.Spoke5Tile5]: {
     links: [TileKey.Spoke5Tile4, TileKey.WheelCap5],
-    color: Color.Blue,
+    color: Color.Green,
   },
   [TileKey.Spoke6Tile1]: {
     links: [TileKey.Center, TileKey.Spoke6Tile2],
-    color: Color.Pink,
+    color: Color.Orange,
   },
   [TileKey.Spoke6Tile2]: {
     links: [TileKey.Spoke6Tile1, TileKey.Spoke6Tile3],
-    color: Color.Yellow,
+    color: Color.Pink,
   },
   [TileKey.Spoke6Tile3]: {
     links: [TileKey.Spoke6Tile2, TileKey.Spoke6Tile4],
-    color: Color.Purple,
+    color: Color.Green,
   },
   [TileKey.Spoke6Tile4]: {
     links: [TileKey.Spoke6Tile3, TileKey.Spoke6Tile5],
-    color: Color.Green,
+    color: Color.Blue,
   },
   [TileKey.Spoke6Tile5]: {
     links: [TileKey.Spoke6Tile4, TileKey.WheelCap6],
-    color: Color.Orange,
+    color: Color.Purple,
   },
   [TileKey.WheelCap1]: {
     links: [TileKey.Spoke1Tile5, TileKey.Wheel1Tile1, TileKey.Wheel6Tile6],
-    color: Color.Green,
+    color: Color.Pink,
   },
   [TileKey.WheelCap2]: {
     links: [TileKey.Wheel1Tile6, TileKey.Wheel2Tile1, TileKey.Spoke2Tile5],
-    color: Color.Orange,
+    color: Color.Green,
   },
   [TileKey.WheelCap3]: {
     links: [TileKey.Wheel2Tile6, TileKey.Wheel3Tile1, TileKey.Spoke3Tile5],
-    color: Color.Blue,
+    color: Color.Purple,
   },
   [TileKey.WheelCap4]: {
     links: [TileKey.Wheel3Tile6, TileKey.Wheel4Tile1, TileKey.Spoke4Tile5],
-    color: Color.Pink,
+    color: Color.Blue,
   },
   [TileKey.WheelCap5]: {
     links: [TileKey.Wheel4Tile6, TileKey.Wheel5Tile1, TileKey.Spoke5Tile5],
-    color: Color.Yellow,
+    color: Color.Orange,
   },
   [TileKey.WheelCap6]: {
     links: [TileKey.Wheel5Tile6, TileKey.Wheel6Tile1, TileKey.Spoke6Tile5],
-    color: Color.Purple,
+    color: Color.Yellow,
   },
   [TileKey.Wheel1Tile1]: {
     links: [TileKey.WheelCap1, TileKey.Wheel1Tile2],
@@ -271,19 +274,19 @@ export const TILES: { [key in TileKey]: Tile } = {
   },
   [TileKey.Wheel1Tile2]: {
     links: [TileKey.Wheel1Tile1, TileKey.Wheel1Tile3],
-    color: Color.Pink,
+    color: Color.Again,
   },
   [TileKey.Wheel1Tile3]: {
     links: [TileKey.Wheel1Tile2, TileKey.Wheel1Tile4],
-    color: Color.Yellow,
+    color: Color.Purple,
   },
   [TileKey.Wheel1Tile4]: {
     links: [TileKey.Wheel1Tile3, TileKey.Wheel1Tile5],
-    color: Color.Purple,
+    color: Color.Yellow,
   },
   [TileKey.Wheel1Tile5]: {
     links: [TileKey.Wheel1Tile4, TileKey.Wheel1Tile6],
-    color: Color.Green,
+    color: Color.Again,
   },
   [TileKey.Wheel1Tile6]: {
     links: [TileKey.Wheel1Tile5, TileKey.WheelCap2],
@@ -291,59 +294,59 @@ export const TILES: { [key in TileKey]: Tile } = {
   },
   [TileKey.Wheel2Tile1]: {
     links: [TileKey.WheelCap2, TileKey.Wheel2Tile2],
-    color: Color.Blue,
+    color: Color.Orange,
   },
   [TileKey.Wheel2Tile2]: {
     links: [TileKey.Wheel2Tile1, TileKey.Wheel2Tile3],
-    color: Color.Pink,
+    color: Color.Again,
   },
   [TileKey.Wheel2Tile3]: {
     links: [TileKey.Wheel2Tile2, TileKey.Wheel2Tile4],
-    color: Color.Yellow,
+    color: Color.Blue,
   },
   [TileKey.Wheel2Tile4]: {
     links: [TileKey.Wheel2Tile3, TileKey.Wheel2Tile5],
-    color: Color.Purple,
+    color: Color.Pink,
   },
   [TileKey.Wheel2Tile5]: {
     links: [TileKey.Wheel2Tile4, TileKey.Wheel2Tile6],
-    color: Color.Green,
+    color: Color.Again,
   },
   [TileKey.Wheel2Tile6]: {
     links: [TileKey.Wheel2Tile5, TileKey.WheelCap3],
-    color: Color.Orange,
+    color: Color.Yellow,
   },
   [TileKey.Wheel3Tile1]: {
     links: [TileKey.WheelCap3, TileKey.Wheel3Tile2],
-    color: Color.Blue,
+    color: Color.Yellow,
   },
   [TileKey.Wheel3Tile2]: {
     links: [TileKey.Wheel3Tile1, TileKey.Wheel3Tile3],
-    color: Color.Pink,
+    color: Color.Again,
   },
   [TileKey.Wheel3Tile3]: {
     links: [TileKey.Wheel3Tile2, TileKey.Wheel3Tile4],
-    color: Color.Yellow,
+    color: Color.Orange,
   },
   [TileKey.Wheel3Tile4]: {
     links: [TileKey.Wheel3Tile3, TileKey.Wheel3Tile5],
-    color: Color.Purple,
+    color: Color.Green,
   },
   [TileKey.Wheel3Tile5]: {
     links: [TileKey.Wheel3Tile4, TileKey.Wheel3Tile6],
-    color: Color.Green,
+    color: Color.Again,
   },
   [TileKey.Wheel3Tile6]: {
     links: [TileKey.Wheel3Tile5, TileKey.WheelCap4],
-    color: Color.Orange,
+    color: Color.Pink,
   },
   [TileKey.Wheel4Tile1]: {
     links: [TileKey.WheelCap4, TileKey.Wheel4Tile2],
-    color: Color.Blue,
+    color: Color.Pink,
   },
   [TileKey.Wheel4Tile2]: {
     links: [TileKey.Wheel4Tile1, TileKey.Wheel4Tile3],
-    color: Color.Pink,
+    color: Color.Again,
   },
   [TileKey.Wheel4Tile3]: {
     links: [TileKey.Wheel4Tile2, TileKey.Wheel4Tile4],
@@ -355,58 +358,58 @@ export const TILES: { [key in TileKey]: Tile } = {
   },
   [TileKey.Wheel4Tile5]: {
     links: [TileKey.Wheel4Tile4, TileKey.Wheel4Tile6],
-    color: Color.Green,
+    color: Color.Again,
   },
   [TileKey.Wheel4Tile6]: {
     links: [TileKey.Wheel4Tile5, TileKey.WheelCap5],
-    color: Color.Orange,
+    color: Color.Green,
   },
   [TileKey.Wheel5Tile1]: {
     links: [TileKey.WheelCap5, TileKey.Wheel5Tile2],
-    color: Color.Blue,
+    color: Color.Green,
   },
   [TileKey.Wheel5Tile2]: {
     links: [TileKey.Wheel5Tile1, TileKey.Wheel5Tile3],
-    color: Color.Pink,
+    color: Color.Again,
   },
   [TileKey.Wheel5Tile3]: {
     links: [TileKey.Wheel5Tile2, TileKey.Wheel5Tile4],
-    color: Color.Yellow,
+    color: Color.Pink,
   },
   [TileKey.Wheel5Tile4]: {
     links: [TileKey.Wheel5Tile3, TileKey.Wheel5Tile5],
-    color: Color.Purple,
+    color: Color.Blue,
   },
   [TileKey.Wheel5Tile5]: {
     links: [TileKey.Wheel5Tile4, TileKey.Wheel5Tile6],
-    color: Color.Green,
+    color: Color.Again,
   },
   [TileKey.Wheel5Tile6]: {
     links: [TileKey.Wheel5Tile5, TileKey.WheelCap6],
-    color: Color.Orange,
+    color: Color.Purple,
   },
   [TileKey.Wheel6Tile1]: {
     links: [TileKey.WheelCap6, TileKey.Wheel6Tile2],
-    color: Color.Blue,
+    color: Color.Purple,
   },
   [TileKey.Wheel6Tile2]: {
     links: [TileKey.Wheel6Tile1, TileKey.Wheel6Tile3],
-    color: Color.Pink,
+    color: Color.Again,
   },
   [TileKey.Wheel6Tile3]: {
     links: [TileKey.Wheel6Tile2, TileKey.Wheel6Tile4],
-    color: Color.Yellow,
+    color: Color.Green,
   },
   [TileKey.Wheel6Tile4]: {
     links: [TileKey.Wheel6Tile3, TileKey.Wheel6Tile5],
-    color: Color.Purple,
+    color: Color.Orange,
   },
   [TileKey.Wheel6Tile5]: {
     links: [TileKey.Wheel6Tile4, TileKey.Wheel6Tile6],
-    color: Color.Green,
+    color: Color.Again,
   },
   [TileKey.Wheel6Tile6]: {
     links: [TileKey.Wheel6Tile5, TileKey.WheelCap1],
-    color: Color.Orange,
+    color: Color.Blue,
   },
 };

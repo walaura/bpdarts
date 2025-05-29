@@ -14,14 +14,14 @@ export const GAME: Game = {
     {
       position: TileKey.Center,
       positionXY: [BOARD_SIZE / 2, BOARD_SIZE / 2],
-      unconsumedDiceRoll: 2,
-      color: Color.Blue,
+      unconsumedDiceRoll: null,
+      color: Color.Green,
     },
     {
       position: TileKey.Center,
       positionXY: [BOARD_SIZE / 2, BOARD_SIZE / 2],
       unconsumedDiceRoll: null,
-      color: Color.Orange,
+      color: Color.Pink,
     },
   ],
 };
