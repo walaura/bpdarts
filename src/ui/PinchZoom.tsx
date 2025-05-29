@@ -131,20 +131,18 @@ function PinchZoomRefless(
       transform.current.f = y;
       transform.current.d = transform.current.a = scale;
 
-      requestAnimationFrame(() => {
-        parentElementRef.current.style.setProperty(
-          "--x",
-          transform.current.e + "px"
-        );
-        parentElementRef.current.style.setProperty(
-          "--y",
-          transform.current.f + "px"
-        );
-        parentElementRef.current.style.setProperty(
-          "--scale",
-          transform.current.a + ""
-        );
-      });
+      parentElementRef.current.style.setProperty(
+        "--x",
+        transform.current.e + "px"
+      );
+      parentElementRef.current.style.setProperty(
+        "--y",
+        transform.current.f + "px"
+      );
+      parentElementRef.current.style.setProperty(
+        "--scale",
+        transform.current.a + ""
+      );
     },
     [minScale]
   );
@@ -378,6 +376,7 @@ function PinchZoomRefless(
       });
     };
 
+    let lastPointer = null;
     // Watch for pointers
     const pointerTracker: PointerTracker = new PointerTracker(
       parentElementRef.current,
@@ -393,8 +392,24 @@ function PinchZoomRefless(
           return true;
         },
         move: (previousPointers) => {
+          lastPointer = previousPointers[0];
           onPointerMove(previousPointers, pointerTracker.currentPointers);
         },
+        end: (finalPointer) => {
+          if (finalPointer.id !== lastPointer?.id) {
+            return;
+          }
+          const deltaX = (finalPointer.clientX - lastPointer.clientX) * 1.1;
+          const deltaY = (finalPointer.clientY - lastPointer.clientY) * 2;
+
+          const matrix = createMatrix();
+          matrix.a = transform.current.a;
+          matrix.e = transform.current.e + deltaX;
+          matrix.f = transform.current.f + deltaY;
+          shouldAbortOngoingAnimation.current = false;
+          setNextTransform(matrix);
+        },
+        rawUpdates: true,
       }
     );
 
