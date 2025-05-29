@@ -153,7 +153,8 @@ function PinchZoomRefless(
   const maybeStartAnimation = useCallback(
     (
       duration: number = ANIMATION_TIMING,
-      timingFunction: (number) => number = easeOutCubic
+      timingFunction: (number) => number = easeOutCubic,
+      skip: number = 0
     ) => {
       const startTime = performance.now();
       const cancel = () => {
@@ -174,9 +175,9 @@ function PinchZoomRefless(
 
         const now = performance.now();
         const elapsed = now - startTime;
-        const progress = elapsed / duration;
+        const progress = skip + elapsed / duration;
 
-        if (progress > 0.5) {
+        if (progress > 1) {
           updateTransform(
             nextTransform.current.a,
             nextTransform.current.e,
@@ -427,7 +428,11 @@ function PinchZoomRefless(
           matrix.e = transform.current.e + deltaX;
           matrix.f = transform.current.f + deltaY;
           nextTransform.current = matrix;
-          maybeStartAnimation(3000, (x) => 1 - Math.pow(1 - x, 10));
+          maybeStartAnimation(
+            600 + absDelta * 2,
+            (x) => 1 - Math.pow(1 - x, 5),
+            0.05
+          );
         },
         rawUpdates: true,
       }
