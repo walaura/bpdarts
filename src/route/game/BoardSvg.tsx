@@ -79,7 +79,7 @@ function WheelTile({
   tileKey: TileKey;
 }) {
   const { onClick } = useTileOuterProps(tileKey);
-  const { fill: innerFill, emoji, opacity } = useTileInnerProps(tileKey);
+  const { fill: innerFill, opacity } = useTileInnerProps(tileKey);
 
   return (
     <g onClick={onClick}>
@@ -104,16 +104,7 @@ function WheelTile({
           fill="#000000"
           opacity={opacity}
         ></path>
-        <text
-          {...stylex.props(styles.emoji, styles.emojiAtOpacity(opacity))}
-          x="250"
-          y="52"
-          alignmentBaseline="middle"
-          fontSize="11"
-          textAnchor="middle"
-        >
-          {emoji}
-        </text>
+        <Image tileKey={tileKey} y={51} />
       </g>
     </g>
   );
@@ -146,7 +137,7 @@ function SpokeTile({
   tileKey: TileKey;
 }) {
   const outerProps = useTileOuterProps(tileKey);
-  const { fill: innerFill, emoji, opacity } = useTileInnerProps(tileKey);
+  const { fill: innerFill, opacity } = useTileInnerProps(tileKey);
   return (
     <g
       transform={`
@@ -175,17 +166,23 @@ function SpokeTile({
         fill="#000000"
         opacity={opacity}
       ></path>
-      <text
-        {...stylex.props(styles.emoji, styles.emojiAtOpacity(opacity))}
-        x="250"
-        y="204"
-        alignmentBaseline="middle"
-        fontSize="11"
-        textAnchor="middle"
-      >
-        {emoji}
-      </text>
+      <Image tileKey={tileKey} y={202.5} />
     </g>
+  );
+}
+
+function Image({ tileKey, y }: { tileKey: TileKey; y?: number }) {
+  const { emoji, opacity } = useTileInnerProps(tileKey);
+  const SIZE = 16;
+  return (
+    <image
+      {...stylex.props(styles.emoji, styles.emojiAtOpacity(opacity))}
+      x={250 - SIZE / 2}
+      y={y - SIZE / 2}
+      width={SIZE}
+      height={SIZE}
+      href={emoji.toString()}
+    />
   );
 }
 
@@ -197,7 +194,7 @@ function SpokeCap({
   tileKey: TileKey;
 }) {
   const outerProps = useTileOuterProps(tileKey);
-  const { fill: innerFill, emoji, opacity } = useTileInnerProps(tileKey);
+  const { fill: innerFill, opacity } = useTileInnerProps(tileKey);
   return (
     <g
       transform={`
@@ -224,16 +221,7 @@ function SpokeCap({
         fill="#000000"
         opacity={opacity}
       ></path>
-      <text
-        {...stylex.props(styles.emoji, styles.emojiAtOpacity(opacity))}
-        x="250"
-        y="87"
-        alignmentBaseline="middle"
-        fontSize="11"
-        textAnchor="middle"
-      >
-        {emoji}
-      </text>
+      <Image tileKey={tileKey} y={86.5} />
     </g>
   );
 }
@@ -249,8 +237,9 @@ function useTileInnerProps(tileKey: TileKey) {
     const allEmojis = EMOJIS_FOR_COLOR[color];
     emoji = allEmojis[Math.floor(Math.random() * allEmojis.length)];
     emojiRef.current[tileKey] = emoji;
+    console.log(EMOJIS_FOR_COLOR[color]);
   }
-  return { fill: COLOR_FOR_COLOR[color], opacity, emoji: emoji as string };
+  return { fill: COLOR_FOR_COLOR[color], opacity, emoji: emoji as URL };
 }
 
 function useTileOuterProps(tileKey: TileKey | null) {

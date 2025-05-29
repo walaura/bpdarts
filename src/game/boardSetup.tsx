@@ -21,14 +21,38 @@ export const COLOR_FOR_COLOR = {
 };
 
 export const EMOJIS_FOR_COLOR = {
-  [Color.Blue]: ["📍", "🌍", "🗺️"],
-  [Color.Pink]: ["🎥", "💽", "🎶"],
-  [Color.Yellow]: ["🎓", "📜", "🗝️"],
-  [Color.Purple]: ["🎨", "🖌️", "📖"],
-  [Color.Green]: ["🌳", "🧬", "🔭"],
-  [Color.Orange]: ["⚽️", "⛷️", "🏐"],
-  [Color.Any]: ["🌍"],
-  [Color.Again]: ["🎲"],
+  [Color.Blue]: [
+    new URL("../static/blue-1.png", import.meta.url),
+    new URL("../static/blue-2.png", import.meta.url),
+    new URL("../static/blue-3.png", import.meta.url),
+  ],
+  [Color.Pink]: [
+    new URL("../static/pink-1.png", import.meta.url),
+    new URL("../static/pink-2.png", import.meta.url),
+    new URL("../static/pink-3.png", import.meta.url),
+  ],
+  [Color.Yellow]: [
+    new URL("../static/yellow-1.png", import.meta.url),
+    new URL("../static/yellow-2.png", import.meta.url),
+    new URL("../static/yellow-3.png", import.meta.url),
+  ],
+  [Color.Purple]: [
+    new URL("../static/purple-1.png", import.meta.url),
+    new URL("../static/purple-2.png", import.meta.url),
+    new URL("../static/purple-3.png", import.meta.url),
+  ],
+  [Color.Green]: [
+    new URL("../static/green-1.png", import.meta.url),
+    new URL("../static/green-2.png", import.meta.url),
+    new URL("../static/green-3.png", import.meta.url),
+  ],
+  [Color.Orange]: [
+    new URL("../static/orange-1.png", import.meta.url),
+    new URL("../static/orange-2.png", import.meta.url),
+    new URL("../static/orange-3.png", import.meta.url),
+  ],
+  [Color.Any]: [new URL("../static/any.png", import.meta.url)],
+  [Color.Again]: [new URL("../static/again.png", import.meta.url)],
 };
 
 export enum TileKey {
