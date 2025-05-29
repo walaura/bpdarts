@@ -30,6 +30,7 @@ interface SetTransformOpts {
   scale?: number;
   x?: number;
   y?: number;
+  animate?: boolean;
 }
 
 export interface PinchZoomRef {
@@ -61,13 +62,12 @@ function getMidpoint(a: Point, b?: Point): Point {
   };
 }
 
-function getAbsoluteValue(value: string | number, max: number): number {
-  if (typeof value === "number") return value;
+function easeOutCubic(x: number): number {
+  return 1 - Math.pow(1 - x, 3);
+}
 
-  if (value.trimRight().endsWith("%")) {
-    return (max * parseFloat(value)) / 100;
-  }
-  return parseFloat(value);
+function lerp(x, y, a) {
+  return x * (1 - a) + y * a;
 }
 
 // I'd rather use DOMMatrix/DOMPoint here, but the browser support isn't good enough.
@@ -90,6 +90,7 @@ function createPoint(): SVGPoint {
 }
 
 const MIN_SCALE = 0.01;
+const ANIMATION_TIMING = 2000;
 
 function PinchZoomRefless(
   {
@@ -105,6 +106,10 @@ function PinchZoomRefless(
   const parentElementRef = useRef<HTMLDivElement>(null);
   const positioningElementRef = useRef<HTMLElement>(null);
   const transform = useRef<SVGMatrix>(createMatrix());
+  const shouldAbortOngoingAnimation = useRef<boolean>(false);
+  const [nextTransform, setNextTransform] = React.useState<SVGMatrix | null>(
+    null
+  );
 
   /**
    * Update transform values without checking bounds. This is only called in setTransform.
@@ -203,6 +208,16 @@ function PinchZoomRefless(
         y += -bottomRight.y;
       }
 
+      if (opts.animate) {
+        const matrix = createMatrix();
+        matrix.a = scale;
+        matrix.e = x;
+        matrix.f = y;
+        shouldAbortOngoingAnimation.current = false;
+        setNextTransform(matrix);
+        return;
+      }
+
       updateTransform(scale, x, y);
     },
     [updateTransform]
@@ -242,7 +257,62 @@ function PinchZoomRefless(
   );
 
   useEffect(() => {
+    if (!nextTransform) return;
+    const startTime = performance.now();
+    const cancel = () => {
+      shouldAbortOngoingAnimation.current = false;
+      setNextTransform(null);
+    };
+    const animate = () => {
+      if (!nextTransform || shouldAbortOngoingAnimation.current === true) {
+        cancel();
+        return;
+      }
+      if (
+        nextTransform.a === transform.current.a &&
+        nextTransform.e === transform.current.e &&
+        nextTransform.f === transform.current.f
+      ) {
+        cancel();
+        return;
+      }
+
+      const now = performance.now();
+      const elapsed = now - startTime;
+      const progress = elapsed / ANIMATION_TIMING;
+
+      if (progress > 0.5) {
+        updateTransform(nextTransform.a, nextTransform.e, nextTransform.f);
+        cancel();
+        return;
+      }
+
+      const scale = lerp(
+        transform.current.a,
+        nextTransform.a,
+        easeOutCubic(progress)
+      );
+      const x = lerp(
+        transform.current.e,
+        nextTransform.e,
+        easeOutCubic(progress)
+      );
+      const y = lerp(
+        transform.current.f,
+        nextTransform.f,
+        easeOutCubic(progress)
+      );
+
+      updateTransform(scale, x, y);
+      requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
+  }, [nextTransform, updateTransform]);
+
+  useEffect(() => {
     const onWheel = (event: WheelEvent) => {
+      shouldAbortOngoingAnimation.current = true;
+
       if (!positioningElementRef.current) return;
       event.preventDefault();
 
@@ -271,6 +341,8 @@ function PinchZoomRefless(
       previousPointers: Pointer[],
       currentPointers: Pointer[]
     ) => {
+      shouldAbortOngoingAnimation.current = true;
+
       if (!positioningElementRef.current) return;
 
       // Combine next points with previous points

@@ -7,6 +7,7 @@ const styles = stylex.create({
   root: (tokens: { accent: string }) => ({
     display: "flex",
     minHeight: "100dvh",
+    "--sheet": "#17447D",
     "--accent": tokens.accent ?? "#12fff7",
     "--active": "var(--accent)",
     backgroundColor: "#110048",

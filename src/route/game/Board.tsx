@@ -3,7 +3,7 @@ import { useState } from "react";
 import { TileKey } from "../../game/boardSetup";
 import { traverseBoard } from "../../game/traverseBoard";
 import { BoardSvg } from "./BoardSvg";
-import { BOARD_SIZE, GAME } from "../../game/gameSetup";
+import { BOARD_SIZE, Game } from "../../game/gameSetup";
 
 const BoardContext = React.createContext<{
   hovered: TileKey | null;
@@ -21,7 +21,13 @@ const BoardContext = React.createContext<{
 
 export const useBoardContext = () => useContext(BoardContext);
 
-export function Board() {
+export function Board({
+  gameState,
+  onClickTile,
+}: {
+  gameState: Game;
+  onClickTile: (tileKey: TileKey, rect: DOMRect) => void;
+}) {
   const [hovered, _setHovered] = useState<TileKey | null>(null);
   const [next, setNext] = useState<TileKey[]>([]);
 
@@ -34,30 +40,9 @@ export function Board() {
     [_setHovered, setNext]
   );
 
-  const onClick = (tileKey: TileKey, rect: DOMRect) => {
-    console.log(`Tile clicked: ${tileKey}`, rect);
-    setGameState((prevState) => {
-      return {
-        ...prevState,
-        players: prevState.players.map((player, index) => {
-          if (index !== prevState.activePlayerId) {
-            return player;
-          }
-          return {
-            ...player,
-            position: tileKey,
-            positionXY: [rect.x + rect.width / 2, rect.y + rect.height / 2],
-            // unconsumedDiceRoll: null, // Reset the dice roll after moving
-          };
-        }),
-      };
-    });
-  };
-
-  const [gameState, setGameState] = useState(GAME);
   return (
     <BoardContext.Provider
-      value={{ hovered, setHovered, next, setNext, onClick }}
+      value={{ hovered, setHovered, next, setNext, onClick: onClickTile }}
     >
       <div
         style={{
