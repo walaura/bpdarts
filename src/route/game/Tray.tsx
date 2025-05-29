@@ -11,9 +11,14 @@ const styles = stylex.create({
     flexShrink: 0,
     flexBasis: "0",
   },
+  margin: {
+    margin: ".5em",
+  },
   tray: (backgroundColor) => ({
     willChange: "transform",
-    padding: "0.5em",
+    paddingBottom: "env(safe-area-inset-bottom, 0px)",
+    paddingLeft: "env(safe-area-inset-left, 0px)",
+    paddingRight: "env(safe-area-inset-left, 0px)",
     backgroundColor,
     backgroundBlendMode: "overlay",
     backgroundImage:
@@ -47,7 +52,7 @@ export function Tray({
   const nextPlayerColor = COLOR_FOR_COLOR[nextPlayer.color];
   return (
     <div {...stylex.props(styles.tray(color), externalStyles)}>
-      <Flexbox gap={8}>
+      <Flexbox gap={8} styles={styles.margin}>
         <Flexbox gap={8} grow={true}>
           <Button
             label={`Dice - ${player.unconsumedDiceRoll ?? "?"}`}
