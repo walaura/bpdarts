@@ -415,8 +415,8 @@ function PinchZoomRefless(
           if (finalPointer.id !== lastPointer?.id) {
             return;
           }
-          const deltaX = (finalPointer.clientX - lastPointer.clientX) * 2;
-          const deltaY = (finalPointer.clientY - lastPointer.clientY) * 2;
+          const deltaX = (finalPointer.clientX - lastPointer.clientX) * 3;
+          const deltaY = (finalPointer.clientY - lastPointer.clientY) * 3;
 
           const absDelta = Math.abs(deltaX) + Math.abs(deltaY);
           if (absDelta < 20) {
