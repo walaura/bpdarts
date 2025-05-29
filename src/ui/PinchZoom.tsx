@@ -106,10 +106,8 @@ function PinchZoomRefless(
   const parentElementRef = useRef<HTMLDivElement>(null);
   const positioningElementRef = useRef<HTMLElement>(null);
   const transform = useRef<SVGMatrix>(createMatrix());
-  const shouldAbortOngoingAnimation = useRef<boolean>(false);
-  const [nextTransform, setNextTransform] = React.useState<SVGMatrix | null>(
-    null
-  );
+
+  const nextTransform = useRef<SVGMatrix | null>(null);
 
   /**
    * Update transform values without checking bounds. This is only called in setTransform.
@@ -145,6 +143,69 @@ function PinchZoomRefless(
       );
     },
     [minScale]
+  );
+
+  /**
+   * Starts an animation if theres a queued animation in place
+   */
+  const maybeStartAnimation = useCallback(
+    (
+      duration: number = ANIMATION_TIMING,
+      timingFunction: (number) => number = easeOutCubic
+    ) => {
+      const startTime = performance.now();
+      const cancel = () => {
+        nextTransform.current = null;
+      };
+      const animate = () => {
+        if (nextTransform.current === null) {
+          return;
+        }
+        if (
+          nextTransform.current.a === transform.current.a &&
+          nextTransform.current.e === transform.current.e &&
+          nextTransform.current.f === transform.current.f
+        ) {
+          nextTransform.current = null;
+          return;
+        }
+
+        const now = performance.now();
+        const elapsed = now - startTime;
+        const progress = elapsed / duration;
+
+        if (progress > 0.5) {
+          updateTransform(
+            nextTransform.current.a,
+            nextTransform.current.e,
+            nextTransform.current.f
+          );
+          cancel();
+          return;
+        }
+
+        const scale = lerp(
+          transform.current.a,
+          nextTransform.current.a,
+          timingFunction(progress)
+        );
+        const x = lerp(
+          transform.current.e,
+          nextTransform.current.e,
+          timingFunction(progress)
+        );
+        const y = lerp(
+          transform.current.f,
+          nextTransform.current.f,
+          timingFunction(progress)
+        );
+
+        updateTransform(scale, x, y);
+        requestAnimationFrame(animate);
+      };
+      requestAnimationFrame(animate);
+    },
+    [updateTransform]
   );
 
   /**
@@ -213,14 +274,14 @@ function PinchZoomRefless(
         matrix.a = scale;
         matrix.e = x;
         matrix.f = y;
-        shouldAbortOngoingAnimation.current = false;
-        setNextTransform(matrix);
+        nextTransform.current = matrix;
+        maybeStartAnimation(ANIMATION_TIMING);
         return;
       }
 
       updateTransform(scale, x, y);
     },
-    [updateTransform]
+    [maybeStartAnimation, updateTransform]
   );
 
   /** Transform the view & fire a change event */
@@ -258,60 +319,11 @@ function PinchZoomRefless(
 
   useEffect(() => {
     if (!nextTransform) return;
-    const startTime = performance.now();
-    const cancel = () => {
-      shouldAbortOngoingAnimation.current = false;
-      setNextTransform(null);
-    };
-    const animate = () => {
-      if (!nextTransform || shouldAbortOngoingAnimation.current === true) {
-        cancel();
-        return;
-      }
-      if (
-        nextTransform.a === transform.current.a &&
-        nextTransform.e === transform.current.e &&
-        nextTransform.f === transform.current.f
-      ) {
-        cancel();
-        return;
-      }
-
-      const now = performance.now();
-      const elapsed = now - startTime;
-      const progress = elapsed / ANIMATION_TIMING;
-
-      if (progress > 0.5) {
-        updateTransform(nextTransform.a, nextTransform.e, nextTransform.f);
-        cancel();
-        return;
-      }
-
-      const scale = lerp(
-        transform.current.a,
-        nextTransform.a,
-        easeOutCubic(progress)
-      );
-      const x = lerp(
-        transform.current.e,
-        nextTransform.e,
-        easeOutCubic(progress)
-      );
-      const y = lerp(
-        transform.current.f,
-        nextTransform.f,
-        easeOutCubic(progress)
-      );
-
-      updateTransform(scale, x, y);
-      requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
   }, [nextTransform, updateTransform]);
 
   useEffect(() => {
     const onWheel = (event: WheelEvent) => {
-      shouldAbortOngoingAnimation.current = true;
+      nextTransform.current = null;
 
       if (!positioningElementRef.current) return;
       event.preventDefault();
@@ -341,7 +353,7 @@ function PinchZoomRefless(
       previousPointers: Pointer[],
       currentPointers: Pointer[]
     ) => {
-      shouldAbortOngoingAnimation.current = true;
+      nextTransform.current = null;
 
       if (!positioningElementRef.current) return;
 
@@ -382,6 +394,7 @@ function PinchZoomRefless(
       parentElementRef.current,
       {
         start: (pointer, event) => {
+          lastPointer = null;
           // We only want to track 2 pointers at most
           if (
             pointerTracker.currentPointers.length === 2 ||
@@ -399,15 +412,20 @@ function PinchZoomRefless(
           if (finalPointer.id !== lastPointer?.id) {
             return;
           }
-          const deltaX = (finalPointer.clientX - lastPointer.clientX) * 1.1;
+          const deltaX = (finalPointer.clientX - lastPointer.clientX) * 2;
           const deltaY = (finalPointer.clientY - lastPointer.clientY) * 2;
+
+          const absDelta = Math.abs(deltaX) + Math.abs(deltaY);
+          if (absDelta < 20) {
+            return;
+          }
 
           const matrix = createMatrix();
           matrix.a = transform.current.a;
           matrix.e = transform.current.e + deltaX;
           matrix.f = transform.current.f + deltaY;
-          shouldAbortOngoingAnimation.current = false;
-          setNextTransform(matrix);
+          nextTransform.current = matrix;
+          maybeStartAnimation(3000, (x) => 1 - Math.pow(1 - x, 10));
         },
         rawUpdates: true,
       }
@@ -419,7 +437,13 @@ function PinchZoomRefless(
       parentElement.removeEventListener("wheel", onWheel);
       pointerTracker.stop();
     };
-  }, [applyChange, parentElementRef, positioningElementRef, transform]);
+  }, [
+    applyChange,
+    maybeStartAnimation,
+    parentElementRef,
+    positioningElementRef,
+    transform,
+  ]);
 
   useEffect(() => {
     if (transform.current.a < minScale) {

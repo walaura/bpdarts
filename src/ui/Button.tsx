@@ -1,26 +1,24 @@
 import React from "react";
-import stylex from "@stylexjs/stylex";
+import stylex, { StyleXStyles } from "@stylexjs/stylex";
 import Flexbox from "../styles/Flexbox";
 
 const styles = stylex.create({
   button: {
-    background: "transparent",
-    border: "2px solid rgba(0,0,0, .04)",
-    borderRadius: "1.3em",
-    color: "#444",
-    fontSize: ".6rem",
-    paddingVertical: ".5em",
-    paddingHorizontal: "1em",
-    fontWeight: 600,
-    appearance: "none",
-    cursor: "pointer",
-    transition: "all .2s",
-    ":hover": {
-      transform: "scale(1.05)",
-      borderRadius: "1.4em",
-    },
+    border: "none",
+    minHeight: "4em",
+    minWidth: "4em",
+    padding: "1em",
+    color: "#000",
+    background: "rgba(255,255,255,0.70);",
+    backgroundBlendMode: "overlay",
+    backgroundImage:
+      "linear-gradient(179deg, rgba(255,255,255,0.50) 0%, rgba(255,255,255,0.00) 100%);",
+    boxShadow:
+      "0 -1px 1px 2px rgba(0,0,0,0.12), inset 0 1px 1px 0 rgba(255,255,255,0.41), inset 0 -1px 1px 0 rgba(0,0,0,0.19);",
+    borderRadius: ".75em",
+    WebkitTapHighlightColor: "transparent",
     ":active": {
-      transform: "scale(.95)",
+      backgroundImage: "none",
     },
   },
   buttonActive: {
@@ -42,6 +40,7 @@ export const Button = ({
   isPrimary = false,
   isActive = false,
   isLabelHidden = false,
+  styles: externalStyles,
 }: {
   label: string;
   isLabelHidden?: boolean;
@@ -49,17 +48,19 @@ export const Button = ({
   onClick: () => void;
   isPrimary?: boolean;
   isActive?: boolean;
+  styles?: StyleXStyles;
 }) => {
   return (
     <button
       {...stylex.props(
         styles.button,
         isPrimary === true && styles.buttonPrimary,
-        isActive === true && styles.buttonActive
+        isActive === true && styles.buttonActive,
+        externalStyles
       )}
       aria-label={label}
       aria-selected={isActive}
-      title={isLabelHidden && label}
+      title={isLabelHidden ? label : undefined}
       onClick={() => {
         onClick();
       }}

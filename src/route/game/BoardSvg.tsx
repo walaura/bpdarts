@@ -15,7 +15,7 @@ const styles = stylex.create({
   },
   emoji: {
     pointerEvents: "none",
-    mixBlendMode: "multiply",
+    mixBlendMode: "plus-darker",
     opacity: 1,
   },
 });
@@ -95,7 +95,6 @@ function WheelTile({
           fill="#000000"
         ></path>
         <text
-          filter="url(#artwork)"
           {...stylex.props(styles.emoji)}
           x="250"
           y="52"
@@ -164,7 +163,6 @@ function SpokeTile({
         fill="#000000"
       ></path>
       <text
-        filter="url(#artwork)"
         {...stylex.props(styles.emoji)}
         x="250"
         y="204"
@@ -211,7 +209,6 @@ function SpokeCap({
         fill="#000000"
       ></path>
       <text
-        filter="url(#artwork)"
         {...stylex.props(styles.emoji)}
         x="250"
         y="87"
@@ -289,23 +286,7 @@ export function BoardSvg() {
       viewBox="0 0 500 500"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <filter id="artwork">
-        <feComponentTransfer>
-          <feFuncR type="gamma" exponent="5" id="gammaR" />
-          <feFuncG type="gamma" exponent="5" id="gammaG" />
-          <feFuncB type="gamma" exponent="5" id="gammaB" />
-        </feComponentTransfer>
-        <feColorMatrix
-          type="saturate"
-          values="0"
-          x="0%"
-          y="0%"
-          width="100%"
-          height="100%"
-          in="SourceGraphic"
-          result="colormatrix"
-        />
-      </filter>
+      <filter id="artwork"></filter>
       <g fill="white">
         <Center tileKey={TileKey.Center} />
         {/* Spokes */}

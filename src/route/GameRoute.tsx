@@ -1,10 +1,11 @@
 import stylex from "@stylexjs/stylex";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Board } from "./game/Board";
 import { BOARD_SIZE, GAME } from "../game/gameSetup";
 import { PinchZoom, PinchZoomRef } from "../ui/PinchZoom";
 import { TileKey } from "../game/boardSetup";
 import { Player } from "../game/playerSetup";
+import { Tray } from "./game/Tray";
 
 const styles = stylex.create({
   center: {
@@ -21,21 +22,16 @@ const styles = stylex.create({
     zIndex: 1,
   },
   tray: {
-    willChange: "transform",
     zIndex: 2,
     flexShrink: 0,
-    padding: "0.5em",
-    backgroundColor: "var(--sheet)",
-    boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.1)",
-    borderRadius: "0.5em 0.5em 0 0",
   },
 });
 
-const getCenter = () => {
+const getCenter = (scale: number) => {
   const { height, width } = visualViewport;
 
-  const x = (BOARD_SIZE - width) / -2;
-  const y = (BOARD_SIZE - height) / -2;
+  const x = (BOARD_SIZE * scale - width) / -2;
+  const y = (BOARD_SIZE * scale - height) / -2;
 
   return { x, y };
 };
@@ -53,6 +49,13 @@ const getPlayerCenter = (player: Player, scale: number) => {
 export default function GameRoute() {
   const ref = React.useRef<PinchZoomRef>(null);
   const innerRef = React.useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    ref.current?.setTransform({
+      ...getCenter(0.5),
+      scale: 0.5,
+    });
+  }, []);
 
   const onClickTile = (tileKey: TileKey, rect: DOMRect) => {
     console.log(`Tile clicked: ${tileKey}`, rect);
@@ -93,63 +96,27 @@ export default function GameRoute() {
           </div>
         </PinchZoom>
       </div>
-      <div {...stylex.props(styles.tray)}>
-        <button
-          onClick={() => {
+      <Tray
+        styles={styles.tray}
+        gameState={gameState}
+        onClickNext={() => {
+          setGameState((prevState) => {
+            const nextPlayerId =
+              (prevState.activePlayerId + 1) % prevState.players.length;
+
             ref.current.setTransform({
-              ...getCenter(),
-              scale: 1,
-              animate: true,
-            });
-          }}
-        >
-          center on board
-        </button>
-        <button
-          onClick={() => {
-            const player = gameState.players[gameState.activePlayerId];
-            ref.current.setTransform({
-              ...getPlayerCenter(player, 0.75),
+              ...getPlayerCenter(prevState.players[nextPlayerId], 0.75),
               scale: 0.75,
               animate: true,
             });
-          }}
-        >
-          center on player
-        </button>
-        <button
-          onClick={() => {
-            setGameState((prevState) => {
-              const nextPlayerId =
-                (prevState.activePlayerId + 1) % prevState.players.length;
 
-              ref.current.setTransform({
-                ...getPlayerCenter(prevState.players[nextPlayerId], 0.75),
-                scale: 0.75,
-                animate: true,
-              });
-
-              return {
-                ...prevState,
-                activePlayerId: nextPlayerId,
-              };
-            });
-          }}
-        >
-          next player
-        </button>
-        <hr />
-        player {gameState.activePlayerId + 1}{" "}
-        <PlayerDeets player={gameState.players[gameState.activePlayerId]} />
-      </div>
+            return {
+              ...prevState,
+              activePlayerId: nextPlayerId,
+            };
+          });
+        }}
+      />
     </div>
-  );
-}
-
-function PlayerDeets({ player }: { player: Player }) {
-  return (
-    <>
-      Position: {player.position}, Color: {player.color}
-    </>
   );
 }

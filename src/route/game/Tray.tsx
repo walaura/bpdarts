@@ -1,0 +1,71 @@
+import stylex, { StyleXStyles } from "@stylexjs/stylex";
+import React from "react";
+import { COLOR_FOR_COLOR } from "../../game/boardSetup";
+import { Game } from "../../game/gameSetup";
+import Flexbox from "../../styles/Flexbox";
+import { Button } from "../../ui/Button";
+
+const styles = stylex.create({
+  grow: {
+    flexGrow: 1,
+    flexShrink: 0,
+    flexBasis: "0",
+  },
+  tray: (backgroundColor) => ({
+    willChange: "transform",
+    padding: "0.5em",
+    backgroundColor,
+    backgroundBlendMode: "overlay",
+    backgroundImage:
+      "linear-gradient(180deg, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.12) 100%)",
+    boxShadow:
+      "0 2px 4px 0 rgba(0,0,0,0.50), inset 0 1px 1px 0 rgba(255,255,255,0.41)",
+    borderRadius: "0.5em 0.5em 0 0",
+  }),
+  nextPlayerBtn: (backgroundColor) => ({ backgroundColor }),
+});
+
+export function Tray({
+  gameState,
+  onClickNext,
+  onClickDice,
+  onClickCheeses,
+  styles: externalStyles,
+}: {
+  gameState: Game;
+  onClickNext: () => void;
+  onClickDice?: () => void;
+  onClickCheeses?: () => void;
+  styles?: StyleXStyles;
+}) {
+  const player = gameState.players[gameState.activePlayerId];
+  const nextPlayer =
+    gameState.players[
+      (gameState.activePlayerId + 1) % gameState.players.length
+    ];
+  const color = COLOR_FOR_COLOR[player.color];
+  const nextPlayerColor = COLOR_FOR_COLOR[nextPlayer.color];
+  return (
+    <div {...stylex.props(styles.tray(color), externalStyles)}>
+      <Flexbox gap={8}>
+        <Flexbox gap={8} grow={true}>
+          <Button
+            label={"Dice"}
+            onClick={onClickDice}
+            styles={styles.grow}
+          ></Button>
+          <Button
+            label={"Cheeses"}
+            onClick={onClickCheeses}
+            styles={styles.grow}
+          ></Button>
+        </Flexbox>
+        <Button
+          label={"Next"}
+          styles={styles.nextPlayerBtn(nextPlayerColor)}
+          onClick={onClickNext}
+        ></Button>
+      </Flexbox>
+    </div>
+  );
+}
