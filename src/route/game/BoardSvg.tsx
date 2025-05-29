@@ -243,7 +243,7 @@ function useTileInnerProps(tileKey: TileKey) {
   const emojiRef = useRef({});
   const { next } = useBoardContext();
 
-  const opacity = next.length > 0 ? (next.includes(tileKey) ? 1 : 0.333) : 1;
+  const opacity = next.length > 0 ? (next.includes(tileKey) ? 1 : 0.2) : 1;
   let emoji = emojiRef.current[tileKey];
   if (!emoji) {
     const allEmojis = EMOJIS_FOR_COLOR[color];
