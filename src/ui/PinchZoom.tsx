@@ -131,18 +131,20 @@ function PinchZoomRefless(
       transform.current.f = y;
       transform.current.d = transform.current.a = scale;
 
-      parentElementRef.current.style.setProperty(
-        "--x",
-        transform.current.e + "px"
-      );
-      parentElementRef.current.style.setProperty(
-        "--y",
-        transform.current.f + "px"
-      );
-      parentElementRef.current.style.setProperty(
-        "--scale",
-        transform.current.a + ""
-      );
+      requestAnimationFrame(() => {
+        parentElementRef.current.style.setProperty(
+          "--x",
+          transform.current.e + "px"
+        );
+        parentElementRef.current.style.setProperty(
+          "--y",
+          transform.current.f + "px"
+        );
+        parentElementRef.current.style.setProperty(
+          "--scale",
+          transform.current.a + ""
+        );
+      });
     },
     [minScale]
   );
@@ -416,7 +418,7 @@ function PinchZoomRefless(
 
     positioningElementRef.current.style.setProperty(
       "transform",
-      "translate(var(--x), var(--y)) scale(var(--scale))"
+      "translate3d(var(--x), var(--y), 0) scale(var(--scale))"
     );
     positioningElementRef.current.style.setProperty("transform-origin", "0 0");
     positioningElementRef.current.style.setProperty("will-change", "transform");
