@@ -129,18 +129,20 @@ function PinchZoomRefless(
       transform.current.f = y;
       transform.current.d = transform.current.a = scale;
 
-      parentElementRef.current.style.setProperty(
-        "--x",
-        transform.current.e + "px"
-      );
-      parentElementRef.current.style.setProperty(
-        "--y",
-        transform.current.f + "px"
-      );
-      parentElementRef.current.style.setProperty(
-        "--scale",
-        transform.current.a + ""
-      );
+      requestAnimationFrame(() => {
+        parentElementRef.current.style.setProperty(
+          "--x",
+          transform.current.e + "px"
+        );
+        parentElementRef.current.style.setProperty(
+          "--y",
+          transform.current.f + "px"
+        );
+        parentElementRef.current.style.setProperty(
+          "--scale",
+          transform.current.a + ""
+        );
+      });
     },
     [minScale]
   );
