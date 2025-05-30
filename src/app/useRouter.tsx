@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export type SolveRoute = {
-  route: "solve";
+  route: 'solve';
   horizontalPositions;
   verticalPositions;
 };
@@ -9,17 +9,17 @@ export type SolveRoute = {
 export type Route =
   | SolveRoute
   | {
-      route: "home";
+      route: 'home';
     };
 
 const resolveRoute = (path: string): Route => {
   if (!path) {
-    return { route: "home" };
+    return { route: 'home' };
   }
 
   //const base = path.split("/").filter(Boolean).slice(1);
 
-  return { route: "home" };
+  return { route: 'home' };
 };
 
 export const useRouter = () => {

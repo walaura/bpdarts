@@ -1,4 +1,4 @@
-const styleXPlugin = require("@stylexjs/babel-plugin");
+const styleXPlugin = require('@stylexjs/babel-plugin');
 
 const config = {
   plugins: [
@@ -13,7 +13,7 @@ const config = {
         unstable_moduleResolution: {
           // type: 'commonJS' | 'haste'
           // default: 'commonJS'
-          type: "commonJS",
+          type: 'commonJS',
           // The absolute path to the root directory of your project
           rootDir: __dirname,
         },

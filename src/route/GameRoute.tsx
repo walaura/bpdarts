@@ -1,24 +1,24 @@
-import stylex from "@stylexjs/stylex";
-import React, { useLayoutEffect, useState } from "react";
-import { Board } from "./game/Board";
-import { BOARD_SIZE, GAME } from "../game/gameSetup";
-import { PinchZoom, PinchZoomRef } from "../ui/PinchZoom";
-import { TileKey } from "../game/boardSetup";
-import { Player } from "../game/playerSetup";
-import { Tray } from "./game/Tray";
+import stylex from '@stylexjs/stylex';
+import React, { useLayoutEffect, useState } from 'react';
+import { Board } from './game/Board';
+import { BOARD_SIZE, GAME } from '../game/gameSetup';
+import { PinchZoom, PinchZoomRef } from '../ui/PinchZoom';
+import { TileKey } from '../game/boardSetup';
+import { Player } from '../game/playerSetup';
+import { Tray } from './game/Tray';
 
 const styles = stylex.create({
   center: {
-    width: "100dvw",
-    height: "100dvh",
-    overflow: "hidden",
-    touchAction: "none",
-    display: "flex",
-    flexDirection: "column",
+    width: '100dvw',
+    height: '100dvh',
+    overflow: 'hidden',
+    touchAction: 'none',
+    display: 'flex',
+    flexDirection: 'column',
   },
   pincher: {
     height: 0,
-    flex: "1 1 0",
+    flex: '1 1 0',
     zIndex: 1,
   },
   tray: {
@@ -88,7 +88,7 @@ export default function GameRoute() {
               width: BOARD_SIZE,
               height: BOARD_SIZE,
               background:
-                "radial-gradient(circle at center, #22479D, #22479D00, #22479D00)",
+                'radial-gradient(circle at center, #22479D, #22479D00, #22479D00)',
             }}
           >
             <Board onClickTile={onClickTile} gameState={gameState} />
@@ -105,7 +105,7 @@ export default function GameRoute() {
               ref.current.setTransform({
                 ...getPlayerCenter(
                   prevState.players[prevState.activePlayerId],
-                  0.33
+                  0.33,
                 ),
                 scale: 0.33,
                 animate: true,
@@ -127,7 +127,7 @@ export default function GameRoute() {
           });
         }}
         onClickCheeses={() => {
-          alert("keep ur own score lol");
+          alert('keep ur own score lol');
         }}
         onClickNext={() => {
           setGameState((prevState) => {

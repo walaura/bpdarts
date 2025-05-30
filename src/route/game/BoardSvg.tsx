@@ -1,21 +1,21 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef } from 'react';
 import {
   COLOR_FOR_COLOR,
   EMOJIS_FOR_COLOR,
   TileKey,
   TILES,
-} from "../../game/boardSetup";
-import stylex from "@stylexjs/stylex";
-import { BOARD_SIZE } from "../../game/gameSetup";
-import { useBoardContext } from "./Board";
+} from '../../game/boardSetup';
+import stylex from '@stylexjs/stylex';
+import { BOARD_SIZE } from '../../game/gameSetup';
+import { useBoardContext } from './Board';
 
 const styles = stylex.create({
   clickThrough: {
-    pointerEvents: "none",
+    pointerEvents: 'none',
   },
   emoji: {
-    pointerEvents: "none",
-    mixBlendMode: "plus-darker",
+    pointerEvents: 'none',
+    mixBlendMode: 'plus-darker',
     opacity: 1,
   },
   emojiAtOpacity: (opacity: number) => ({
@@ -251,7 +251,7 @@ function useTileOuterProps(tileKey: TileKey | null) {
         event.target as SVGGraphicsElement
       ).getBoundingClientRect();
       const parentRect = (event.target as SVGGraphicsElement)
-        .closest("svg")
+        .closest('svg')
         .getBoundingClientRect();
 
       const scale = BOARD_SIZE / parentRect.width;
@@ -260,12 +260,12 @@ function useTileOuterProps(tileKey: TileKey | null) {
         (childRect.x - parentRect.x) * scale,
         (childRect.y - parentRect.y) * scale,
         childRect.width * scale,
-        childRect.height * scale
+        childRect.height * scale,
       );
 
       onClickCallback(tileKey, rect);
     },
-    [onClickCallback, tileKey]
+    [onClickCallback, tileKey],
   );
 
   return { onClick };

@@ -1,4 +1,4 @@
-import { TileKey, TILES } from "./boardSetup";
+import { TileKey, TILES } from './boardSetup';
 
 export function traverseBoard(start: TileKey, length = 2): TileKey[] {
   const visited = new Set<TileKey>();

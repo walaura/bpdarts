@@ -1,7 +1,7 @@
-import stylex from "@stylexjs/stylex";
-import PointerTracker, { Pointer } from "pointer-tracker";
-import React, { useImperativeHandle } from "react";
-import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import stylex from '@stylexjs/stylex';
+import PointerTracker, { Pointer } from 'pointer-tracker';
+import React, { useImperativeHandle } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
 /**
  * Stolen from https://github.com/GoogleChromeLabs/pinch-zoom/blob/master/lib/pinch-zoom.ts
@@ -37,7 +37,7 @@ export interface PinchZoomRef {
   setTransform: (opts?: SetTransformOpts) => void;
 }
 
-type ScaleRelativeToValues = "container" | "content";
+type ScaleRelativeToValues = 'container' | 'content';
 
 export interface ScaleToOpts {
   /** Transform origin. Can be a number, or string percent, eg "50%" */
@@ -77,7 +77,7 @@ let cachedSvg: SVGSVGElement;
 function getSVG(): SVGSVGElement {
   return (
     cachedSvg ||
-    (cachedSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg"))
+    (cachedSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'))
   );
 }
 
@@ -100,7 +100,7 @@ function PinchZoomRefless(
     minScale?: number;
     children: React.ReactNode;
   },
-  ref?: React.ForwardedRef<PinchZoomRef>
+  ref?: React.ForwardedRef<PinchZoomRef>,
 ) {
   // The element that we'll transform.
   const parentElementRef = useRef<HTMLDivElement>(null);
@@ -131,20 +131,20 @@ function PinchZoomRefless(
 
       requestAnimationFrame(() => {
         parentElementRef.current.style.setProperty(
-          "--x",
-          transform.current.e + "px"
+          '--x',
+          transform.current.e + 'px',
         );
         parentElementRef.current.style.setProperty(
-          "--y",
-          transform.current.f + "px"
+          '--y',
+          transform.current.f + 'px',
         );
         parentElementRef.current.style.setProperty(
-          "--scale",
-          transform.current.a + ""
+          '--scale',
+          transform.current.a + '',
         );
       });
     },
-    [minScale]
+    [minScale],
   );
 
   /**
@@ -154,7 +154,7 @@ function PinchZoomRefless(
     (
       duration: number = ANIMATION_TIMING,
       timingFunction: (number) => number = easeOutCubic,
-      skip: number = 0
+      skip: number = 0,
     ) => {
       const startTime = performance.now();
       const cancel = () => {
@@ -181,7 +181,7 @@ function PinchZoomRefless(
           updateTransform(
             nextTransform.current.a,
             nextTransform.current.e,
-            nextTransform.current.f
+            nextTransform.current.f,
           );
           cancel();
           return;
@@ -190,17 +190,17 @@ function PinchZoomRefless(
         const scale = lerp(
           transform.current.a,
           nextTransform.current.a,
-          timingFunction(progress)
+          timingFunction(progress),
         );
         const x = lerp(
           transform.current.e,
           nextTransform.current.e,
-          timingFunction(progress)
+          timingFunction(progress),
         );
         const y = lerp(
           transform.current.f,
           nextTransform.current.f,
-          timingFunction(progress)
+          timingFunction(progress),
         );
 
         updateTransform(scale, x, y);
@@ -208,7 +208,7 @@ function PinchZoomRefless(
       };
       requestAnimationFrame(animate);
     },
-    [updateTransform]
+    [updateTransform],
   );
 
   /**
@@ -284,7 +284,7 @@ function PinchZoomRefless(
 
       updateTransform(scale, x, y);
     },
-    [maybeStartAnimation, updateTransform]
+    [maybeStartAnimation, updateTransform],
   );
 
   /** Transform the view & fire a change event */
@@ -317,7 +317,7 @@ function PinchZoomRefless(
         y: matrix.f,
       });
     },
-    [setTransform]
+    [setTransform],
   );
 
   useEffect(() => {
@@ -354,7 +354,7 @@ function PinchZoomRefless(
 
     const onPointerMove = (
       previousPointers: Pointer[],
-      currentPointers: Pointer[]
+      currentPointers: Pointer[],
     ) => {
       nextTransform.current = null;
 
@@ -366,7 +366,7 @@ function PinchZoomRefless(
       // For calculating panning movement
       const prevMidpoint = getMidpoint(
         previousPointers[0],
-        previousPointers[1]
+        previousPointers[1],
       );
       const newMidpoint = getMidpoint(currentPointers[0], currentPointers[1]);
 
@@ -377,7 +377,7 @@ function PinchZoomRefless(
       // Calculate the desired change in scale
       const prevDistance = getDistance(
         previousPointers[0],
-        previousPointers[1]
+        previousPointers[1],
       );
       const newDistance = getDistance(currentPointers[0], currentPointers[1]);
       const scaleDiff = prevDistance ? newDistance / prevDistance : 1;
@@ -431,17 +431,17 @@ function PinchZoomRefless(
           maybeStartAnimation(
             600 + absDelta * 2,
             (x) => 1 - Math.pow(1 - x, 5),
-            0.05
+            0.05,
           );
         },
         rawUpdates: true,
-      }
+      },
     );
 
     const parentElement = parentElementRef.current!;
-    parentElement.addEventListener("wheel", onWheel);
+    parentElement.addEventListener('wheel', onWheel);
     return () => {
-      parentElement.removeEventListener("wheel", onWheel);
+      parentElement.removeEventListener('wheel', onWheel);
       pointerTracker.stop();
     };
   }, [
@@ -463,11 +463,11 @@ function PinchZoomRefless(
       ?.children[0] as HTMLElement;
 
     positioningElementRef.current.style.setProperty(
-      "transform",
-      "translate3d(var(--x), var(--y), 0) scale(var(--scale))"
+      'transform',
+      'translate3d(var(--x), var(--y), 0) scale(var(--scale))',
     );
-    positioningElementRef.current.style.setProperty("transform-origin", "0 0");
-    positioningElementRef.current.style.setProperty("will-change", "transform");
+    positioningElementRef.current.style.setProperty('transform-origin', '0 0');
+    positioningElementRef.current.style.setProperty('will-change', 'transform');
 
     setTransform({});
   });
@@ -487,8 +487,8 @@ export const PinchZoom = React.forwardRef(PinchZoomRefless);
 
 const styles = stylex.create({
   root: {
-    display: "block",
-    overflow: "hidden",
-    touchAction: "none",
+    display: 'block',
+    overflow: 'hidden',
+    touchAction: 'none',
   },
 });

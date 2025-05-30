@@ -1,10 +1,10 @@
-import stylex from "@stylexjs/stylex";
-import { StyleXStyles } from "@stylexjs/stylex/lib/StyleXTypes";
-import React from "react";
+import stylex from '@stylexjs/stylex';
+import { StyleXStyles } from '@stylexjs/stylex/lib/StyleXTypes';
+import React from 'react';
 
 const styles = stylex.create({
   box: {
-    display: "flex",
+    display: 'flex',
   },
   wGap: (gap: number) => ({
     gap,
@@ -13,65 +13,65 @@ const styles = stylex.create({
     flexGrow: 1,
   },
   boxFit: {
-    width: "fit-content",
+    width: 'fit-content',
   },
 });
 
 const directionStyles = stylex.create({
   row: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   column: {
-    flexDirection: "column",
+    flexDirection: 'column',
   },
 });
 
 const alignStyles = stylex.create({
   center: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   start: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   end: {
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
   },
   unset: {},
 });
 
 const justifyStyles = stylex.create({
   center: {
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   start: {
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
   },
   end: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   between: {
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
 });
 
 export default function Flexbox({
   styles: externalStyles,
   children,
-  direction = "row",
+  direction = 'row',
   gap,
   grow = false,
   fit = false,
-  align = "unset",
-  justify = "center",
+  align = 'unset',
+  justify = 'center',
 }: {
   children: React.ReactNode;
   styles?: StyleXStyles;
   gap?: 4 | 8 | 12 | 16 | 20;
-  direction?: "row" | "column";
+  direction?: 'row' | 'column';
   grow?: boolean;
   fit?: boolean;
-  align?: "center" | "start" | "end" | "unset";
-  justify?: "center" | "start" | "end" | "between";
+  align?: 'center' | 'start' | 'end' | 'unset';
+  justify?: 'center' | 'start' | 'end' | 'between';
 }) {
   return (
     <div
@@ -79,11 +79,11 @@ export default function Flexbox({
         externalStyles,
         styles.box,
         directionStyles[direction],
-        alignStyles[grow ? "grow" : align],
+        alignStyles[grow ? 'grow' : align],
         justifyStyles[justify],
         gap && styles.wGap(gap),
         grow && styles.boxGrow,
-        fit && styles.boxFit
+        fit && styles.boxFit,
       )}
     >
       {children}

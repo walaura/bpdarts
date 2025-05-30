@@ -1,5 +1,5 @@
-import { Color, TileKey } from "./boardSetup";
-import { Player } from "./playerSetup";
+import { Color, TileKey } from './boardSetup';
+import { Player } from './playerSetup';
 
 export type Game = {
   players: Player[];
@@ -16,18 +16,21 @@ export const GAME: Game = {
       positionXY: [BOARD_SIZE / 2, BOARD_SIZE / 2],
       unconsumedDiceRoll: null,
       color: Color.Green,
+      wedges: [Color.Yellow],
     },
     {
       position: TileKey.Center,
       positionXY: [BOARD_SIZE / 2, BOARD_SIZE / 2],
       unconsumedDiceRoll: null,
       color: Color.Pink,
+      wedges: [],
     },
     {
       position: TileKey.Center,
       positionXY: [BOARD_SIZE / 2, BOARD_SIZE / 2],
       unconsumedDiceRoll: null,
       color: Color.Blue,
+      wedges: [],
     },
   ],
 };
