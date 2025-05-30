@@ -105,7 +105,7 @@ export default function GameRoute() {
               ref.current.setTransform({
                 ...getPlayerCenter(
                   prevState.players[prevState.activePlayerId],
-                  0.33,
+                  0.33
                 ),
                 scale: 0.33,
                 animate: true,
@@ -126,8 +126,21 @@ export default function GameRoute() {
             };
           });
         }}
-        onClickCheeses={() => {
-          alert('keep ur own score lol');
+        onAssignWedge={(playerIndex, wedges) => {
+          setGameState((prevState) => {
+            return {
+              ...prevState,
+              players: prevState.players.map((player, index) => {
+                if (index !== playerIndex) {
+                  return player;
+                }
+                return {
+                  ...player,
+                  wedges,
+                };
+              }),
+            };
+          });
         }}
         onClickNext={() => {
           setGameState((prevState) => {

@@ -1,13 +1,13 @@
 import stylex from '@stylexjs/stylex';
 import { StyleXStyles } from '@stylexjs/stylex/lib/StyleXTypes';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 const styles = stylex.create({
   box: {
     display: 'flex',
   },
   wGap: (gap: number) => ({
-    gap,
+    gap: `${gap / 16}rem`,
   }),
   boxGrow: {
     flexGrow: 1,
@@ -54,25 +54,28 @@ const justifyStyles = stylex.create({
   },
 });
 
-export default function Flexbox({
-  styles: externalStyles,
-  children,
-  direction = 'row',
-  gap,
-  grow = false,
-  fit = false,
-  align = 'unset',
-  justify = 'center',
-}: {
-  children: React.ReactNode;
-  styles?: StyleXStyles;
-  gap?: 4 | 8 | 12 | 16 | 20;
-  direction?: 'row' | 'column';
-  grow?: boolean;
-  fit?: boolean;
-  align?: 'center' | 'start' | 'end' | 'unset';
-  justify?: 'center' | 'start' | 'end' | 'between';
-}) {
+function FlexboxImpl(
+  {
+    styles: externalStyles,
+    children,
+    direction = 'row',
+    gap,
+    grow = false,
+    fit = false,
+    align = 'unset',
+    justify = 'center',
+  }: {
+    children: React.ReactNode;
+    styles?: StyleXStyles;
+    gap?: 4 | 8 | 12 | 16 | 20;
+    direction?: 'row' | 'column';
+    grow?: boolean;
+    fit?: boolean;
+    align?: 'center' | 'start' | 'end' | 'unset';
+    justify?: 'center' | 'start' | 'end' | 'between';
+  },
+  ref: React.Ref<HTMLDivElement>
+) {
   return (
     <div
       {...stylex.props(
@@ -83,10 +86,13 @@ export default function Flexbox({
         justifyStyles[justify],
         gap && styles.wGap(gap),
         grow && styles.boxGrow,
-        fit && styles.boxFit,
+        fit && styles.boxFit
       )}
+      ref={ref}
     >
       {children}
     </div>
   );
 }
+
+export const Flexbox = forwardRef(FlexboxImpl);
