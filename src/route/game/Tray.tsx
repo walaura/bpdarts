@@ -102,7 +102,11 @@ export function Tray({
                     ></div>
                   )
                 }
-                label="Toggle wedge"
+                label={
+                  player.wedges.includes(wedge)
+                    ? `Remove ${wedge} wedge`
+                    : `Add ${wedge} wedge`
+                }
                 onClick={() => {
                   onAssignWedge(
                     gameState.activePlayerId,
