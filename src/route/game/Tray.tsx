@@ -103,9 +103,7 @@ export function Tray({
                   )
                 }
                 label={
-                  player.wedges.includes(wedge)
-                    ? `Remove ${wedge} wedge`
-                    : `Add ${wedge} wedge`
+                  player.wedges.includes(wedge) ? `Remove wedge` : `Add wedge`
                 }
                 onClick={() => {
                   onAssignWedge(
