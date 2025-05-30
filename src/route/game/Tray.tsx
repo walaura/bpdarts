@@ -90,7 +90,7 @@ export function Tray({
               <Button
                 key={wedge}
                 icon={
-                  player.wedges.includes(wedge) && (
+                  player.wedges.includes(wedge) ? (
                     <div
                       key={wedge}
                       style={{
@@ -98,6 +98,15 @@ export function Tray({
                         height: '2em',
                         backgroundColor: COLOR_FOR_COLOR[wedge],
                         borderRadius: '50%',
+                      }}
+                    ></div>
+                  ) : (
+                    <div
+                      key={wedge}
+                      style={{
+                        width: '2em',
+                        height: '.5em',
+                        backgroundColor: COLOR_FOR_COLOR[wedge],
                       }}
                     ></div>
                   )
