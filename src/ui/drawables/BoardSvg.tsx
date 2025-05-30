@@ -4,10 +4,10 @@ import {
   EMOJIS_FOR_COLOR,
   TileKey,
   TILES,
-} from '../../game/boardSetup';
+} from '../../logic/boardSetup';
 import stylex from '@stylexjs/stylex';
-import { BOARD_SIZE } from '../../game/gameSetup';
-import { useBoardContext } from './Board';
+import { BOARD_SIZE } from '../../logic/gameSetup';
+import { useBoardContext } from '../../route/game/Board';
 
 const styles = stylex.create({
   clickThrough: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import stylex, { StyleXStyles } from '@stylexjs/stylex';
-import { Flexbox } from '../styles/Flexbox';
+import { Flexbox } from './styles/Flexbox';
 
 const styles = stylex.create({
   button: {
@@ -15,9 +15,9 @@ const styles = stylex.create({
     textShadow: '0 1px 0 rgba(255,255,255,0.3)',
     fontWeight: 'bold',
     backgroundImage:
-      'linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(0,0,0,.2) 100%);',
+      'linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(0,0,0,.1) 100%);',
     boxShadow:
-      '0 -1px 2px 1px rgba(0,0,0,0.1), inset 0 -1px 6px 0 rgba(0,0,0,0.1), inset 0 1px 0 0 rgba(255,255,255,0.2), inset 0 -1px 1px 0 rgba(0,0,0,0.2);',
+      '0 -1px 2px 1px rgba(0,0,0,0.1), inset 0 -1px 6px 0 rgba(0,0,0,0.1), inset 0 1px 0 0 rgba(255,255,255,0.3), inset 0 -1px 1px 0 rgba(0,0,0,0.3);',
     borderRadius: '.75rem',
     WebkitTapHighlightColor: 'transparent',
     ':active': {
@@ -37,6 +37,7 @@ const styles = stylex.create({
     paddingHorizontal: '2em',
   },
 });
+
 export const Button = ({
   label,
   icon,

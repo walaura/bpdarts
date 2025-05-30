@@ -1,10 +1,10 @@
 import stylex from '@stylexjs/stylex';
 import React, { useLayoutEffect, useState } from 'react';
 import { Board } from './game/Board';
-import { BOARD_SIZE, GAME } from '../game/gameSetup';
+import { BOARD_SIZE, GAME } from '../logic/gameSetup';
 import { PinchZoom, PinchZoomRef } from '../ui/PinchZoom';
-import { TileKey } from '../game/boardSetup';
-import { Player } from '../game/playerSetup';
+import { TileKey } from '../logic/boardSetup';
+import { Player } from '../logic/playerSetup';
 import { Tray } from './game/Tray';
 
 const styles = stylex.create({

@@ -1,6 +1,6 @@
 import stylex, { StyleXStyles } from '@stylexjs/stylex';
 import React from 'react';
-import { Flexbox } from '../styles/Flexbox';
+import { Flexbox } from './styles/Flexbox';
 
 const styles = stylex.create({
   margin: {

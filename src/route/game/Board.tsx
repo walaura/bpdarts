@@ -1,9 +1,9 @@
 import React, { useContext, useMemo } from 'react';
 
-import { COLOR_FOR_COLOR, TileKey } from '../../game/boardSetup';
-import { traverseBoard } from '../../game/traverseBoard';
-import { BoardSvg } from './BoardSvg';
-import { BOARD_SIZE, Game } from '../../game/gameSetup';
+import { COLOR_FOR_COLOR, TileKey } from '../../logic/boardSetup';
+import { traverseBoard } from '../../logic/traverseBoard';
+import { BoardSvg } from '../../ui/drawables/BoardSvg';
+import { BOARD_SIZE, Game } from '../../logic/gameSetup';
 
 const BoardContext = React.createContext<{
   onClick: (tileKey: TileKey, rect: DOMRect) => void;
@@ -24,7 +24,7 @@ export function Board({
 }) {
   const player = useMemo(
     () => gameState.players[gameState.activePlayerId],
-    [gameState.players, gameState.activePlayerId],
+    [gameState.players, gameState.activePlayerId]
   );
 
   const next = useMemo(() => {

@@ -1,11 +1,11 @@
 import stylex, { StyleXStyles } from '@stylexjs/stylex';
 import React, { useState } from 'react';
-import { Color, COLOR_FOR_COLOR } from '../../game/boardSetup';
-import { Game } from '../../game/gameSetup';
-import { Flexbox } from '../../styles/Flexbox';
+import { Color, COLOR_FOR_COLOR } from '../../logic/boardSetup';
+import { Game } from '../../logic/gameSetup';
+import { Flexbox } from '../../ui/styles/Flexbox';
 import { Button } from '../../ui/Button';
-import { Overlay } from '../../ui/Overlay';
 import { BottomControls } from '../../ui/BottomControls';
+import { WedgesOverlay } from './WedgesOverlay';
 
 const styles = stylex.create({
   grow: {
@@ -70,63 +70,11 @@ export function Tray({
         ></Button>
       </BottomControls>
       {isWedgeOverlayOpen && (
-        <Overlay
-          onClose={() => {
-            setIsWedgeOverlayOpen(false);
-          }}
-        >
-          Current player is {gameState.activePlayerId} (
-          {COLOR_FOR_COLOR[player.color]}) with these wedges
-          <br />
-          <Flexbox gap={8} direction="column">
-            {[
-              Color.Blue,
-              Color.Green,
-              Color.Orange,
-              Color.Pink,
-              Color.Purple,
-              Color.Yellow,
-            ].map((wedge) => (
-              <Button
-                key={wedge}
-                icon={
-                  player.wedges.includes(wedge) ? (
-                    <div
-                      key={wedge}
-                      style={{
-                        width: '2em',
-                        height: '2em',
-                        backgroundColor: COLOR_FOR_COLOR[wedge],
-                        borderRadius: '50%',
-                      }}
-                    ></div>
-                  ) : (
-                    <div
-                      key={wedge}
-                      style={{
-                        width: '2em',
-                        height: '.5em',
-                        backgroundColor: COLOR_FOR_COLOR[wedge],
-                      }}
-                    ></div>
-                  )
-                }
-                label={
-                  player.wedges.includes(wedge) ? `Remove wedge` : `Add wedge`
-                }
-                onClick={() => {
-                  onAssignWedge(
-                    gameState.activePlayerId,
-                    player.wedges.includes(wedge)
-                      ? player.wedges.filter((w) => w !== wedge)
-                      : [...player.wedges, wedge]
-                  );
-                }}
-              ></Button>
-            ))}
-          </Flexbox>
-          <br />
-        </Overlay>
+        <WedgesOverlay
+          gameState={gameState}
+          onAssignWedge={onAssignWedge}
+          onClose={() => setIsWedgeOverlayOpen(false)}
+        />
       )}
     </>
   );

@@ -8,9 +8,6 @@ const styles = stylex.create({
     display: 'flex',
     color: '#fff',
     minHeight: '100dvh',
-    '--sheet': '#17447D',
-    '--accent': '#12fff7',
-    '--active': 'var(--accent)',
     backgroundColor: '#110048',
   },
   center: {
